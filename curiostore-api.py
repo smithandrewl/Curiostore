@@ -48,7 +48,7 @@ def login(db):
         return  JwtPlugin.encode(
             {
                 'id': user.id,
-                'exp': (datetime.datetime.utcnow() + datetime.timedelta(seconds= 60 * 5)).timestamp()
+                'exp': (datetime.datetime.utcnow() + datetime.timedelta(seconds= 60 * 10000)).timestamp()
             }
         )
     else:
