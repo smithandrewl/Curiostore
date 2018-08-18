@@ -60,7 +60,12 @@ def login(db):
 def example(user):
     user = session.query(User).filter(User.display_name == user).first()
 
+
     result = {}
+
+    if not user:
+        bottle.response.status = 404
+        return {"error": "User not found"}
 
     for collection in user.collections:
       result[ collection.name] = { "id": collection.id, "name": collection.name, "description": collection.description }
