@@ -55,6 +55,49 @@ def login(db):
         bottle.response.status = 401
         return {'error': 'invalid username or password'}
 
+@app.post("/<user>/collection/", auth="any values and types")
+def add_collection(user,auth):
+    print("add_collection({}, {})".format(user, auth))
+    user = session.query(User).filter(User.display_name == user).first()
+    print("Query finished, user = {}".format(repr(user)))
+
+    if not user:
+        bottle.response.status = 404
+        return {"error": "User not found"}
+
+    logged_in_user = session.query(User).filter(User.id == auth["id"]).first()
+
+    if not logged_in_user:
+        bottle.response.status = 403
+        return {"error": "Request denied"}
+
+    body = bottle.request.json
+
+    name_missing = "name" not in body
+    description_missing = "description" not in body
+
+
+    if name_missing or description_missing:
+        bottle.response.status = 400
+        return {"error": "Missing required parameters."}
+
+    name = body["name"]
+    description = body["description"]
+
+    already_exists = session.query(Collection).filter(Collection.name == name).first()
+
+    if already_exists:
+        bottle.response.status = 400
+        return {"error": "There is already a collection with that name."}
+
+    new_collection =Collection(user=user, name = name, description = description)
+
+    session.add(new_collection)
+    session.commit()
+
+    return { "id": new_collection.id }
+
+    # user id from the auth token does not match the user specified
 
 @app.get("/<user>/collection/", auth="any values and types")
 def example(user):
