@@ -1,10 +1,8 @@
 import bcrypt
 import bottle
 from bottle.ext import sqlalchemy
-from bottle import get, install, run
 from bottlejwt import JwtPlugin
 from sqlalchemy import create_engine, Column, Integer, String
-import json
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -26,6 +24,23 @@ app.install(plugin)
 def validation(auth, auth_value):
     print(auth, auth_value)
     return True
+
+@app.post("/login")
+def login(db):
+    body = bottle.request.json
+    email = body["email"]
+    password = body["password"]
+
+    user = session.query(User).filter(User.email == email).first()
+
+    authenticated = bcrypt.checkpw(password.encode(), user.password_hash)
+
+    if authenticated:
+        return  JwtPlugin.encode({'id': user.id})
+    else:
+        bottle.response.status = 401
+        return {'error': 'invalid username or password'}
+
 
 @app.get("/create")
 def create(db):
@@ -59,10 +74,10 @@ Session = sessionmaker(bind=engine)
 session=Session()
 Base.metadata.create_all(engine)
 
-session.add(User(email='tbobs@place.com', display_name='Tim Bob', password_hash=bcrypt.hashpw('TimPass'.encode(), bcrypt.gensalt())))
-session.add(User(email='bbobs@place.com', display_name='Paul Bob', password_hash=bcrypt.hashpw('PaulPass'.encode(), bcrypt.gensalt())))
-session.add(User(email='jbobs@place.com', display_name='John Bob', password_hash=bcrypt.hashpw('JohnPass'.encode(), bcrypt.gensalt())))
-session.add(User(email='rbobs@place.com', display_name='Rue Bob', password_hash=bcrypt.hashpw('RuePass'.encode(), bcrypt.gensalt())))
+session.add(User(email='tbob@place.com', display_name='Tim Bob', password_hash=bcrypt.hashpw('TimPass'.encode(), bcrypt.gensalt())))
+session.add(User(email='bbob@place.com', display_name='Paul Bob', password_hash=bcrypt.hashpw('PaulPass'.encode(), bcrypt.gensalt())))
+session.add(User(email='jbob@place.com', display_name='John Bob', password_hash=bcrypt.hashpw('JohnPass'.encode(), bcrypt.gensalt())))
+session.add(User(email='rbob@place.com', display_name='Rue Bob', password_hash=bcrypt.hashpw('RuePass'.encode(), bcrypt.gensalt())))
 session.commit()
 
 app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
