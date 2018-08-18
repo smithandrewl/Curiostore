@@ -1,5 +1,7 @@
 import bcrypt
 import bottle
+import datetime
+
 from bottle.ext import sqlalchemy
 from bottlejwt import JwtPlugin
 from sqlalchemy import create_engine, Column, Integer, String
@@ -10,20 +12,27 @@ Base = declarative_base()
 engine = create_engine('sqlite:///:memory:', echo=True)
 
 app = bottle.Bottle()
+
 plugin = sqlalchemy.Plugin(
-    engine, # SQLAlchemy engine created with create_engine function.
-    Base.metadata, # SQLAlchemy metadata, required only if create=True.
-    keyword='db', # Keyword used to inject session database in a route (default 'db').
-    create=True, # If it is true, execute `metadata.create_all(engine)` when plugin is applied (default False).
-    commit=True, # If it is true, plugin commit changes after route is executed (default True).
-    use_kwargs=False # If it is true and keyword is not defined, plugin uses **kwargs argument to inject session database (default False).
+    engine,
+    Base.metadata,
+    keyword='db',
+    create=True,
+    commit=True,
+    use_kwargs=False
 )
 
 app.install(plugin)
 
 def validation(auth, auth_value):
-    print(auth, auth_value)
-    return True
+
+    if 'exp' not in auth:
+        return False
+
+    current_time = int(datetime.datetime.utcnow().timestamp())
+    expiration_time = int(auth['exp'])
+
+    return current_time < expiration_time
 
 @app.post("/login")
 def login(db):
@@ -36,22 +45,16 @@ def login(db):
     authenticated = bcrypt.checkpw(password.encode(), user.password_hash)
 
     if authenticated:
-        return  JwtPlugin.encode({'id': user.id})
+        return  JwtPlugin.encode(
+            {
+                'id': user.id,
+                'exp': (datetime.datetime.utcnow() + datetime.timedelta(seconds= 60 * 5)).timestamp()
+            }
+        )
     else:
         bottle.response.status = 401
         return {'error': 'invalid username or password'}
 
-
-@app.get("/create")
-def create(db):
-    users = db.query(User).all()
-
-    result = {}
-
-    for user in users:
-        result[user.id] = {'id': user.id, 'email': user.email, 'display_name': user.display_name}
-
-    return result
 
 @app.get("/", auth="any values and types")
 def example(auth):  # auth argument is optional!
