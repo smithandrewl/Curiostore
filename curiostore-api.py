@@ -1,3 +1,4 @@
+import bcrypt
 import bottle
 from bottle.ext import sqlalchemy
 from bottle import get, install, run
@@ -33,7 +34,7 @@ def create(db):
     result = {}
 
     for user in users:
-        result[user.id] = {'id': user.id, 'email': user.email, 'display_name': user.display_name, 'password_hash': user.password_hash}
+        result[user.id] = {'id': user.id, 'email': user.email, 'display_name': user.display_name}
 
     return result
 
@@ -50,7 +51,7 @@ class User(Base):
     password_hash = Column(String)
 
     def __repr__(self):
-        return "<User(id ='{}', email = '{}', display_name = '{}', password_hash = '{}'>".format(self.id, self.email, self.display_name, self.password_hash)
+        return "<User(id ='{}', email = '{}', display_name = '{}'>".format(self.id, self.email, self.display_name)
 
 
 Session = sessionmaker(bind=engine)
@@ -58,10 +59,10 @@ Session = sessionmaker(bind=engine)
 session=Session()
 Base.metadata.create_all(engine)
 
-session.add(User(email='tbobs@place.com', display_name='Tim Bob', password_hash='No'))
-session.add(User(email='bbobs@place.com', display_name='Paul Bob', password_hash='No'))
-session.add(User(email='jbobs@place.com', display_name='John Bob', password_hash='No'))
-session.add(User(email='rbobs@place.com', display_name='Rue Bob', password_hash='No'))
+session.add(User(email='tbobs@place.com', display_name='Tim Bob', password_hash=bcrypt.hashpw('TimPass'.encode(), bcrypt.gensalt())))
+session.add(User(email='bbobs@place.com', display_name='Paul Bob', password_hash=bcrypt.hashpw('PaulPass'.encode(), bcrypt.gensalt())))
+session.add(User(email='jbobs@place.com', display_name='John Bob', password_hash=bcrypt.hashpw('JohnPass'.encode(), bcrypt.gensalt())))
+session.add(User(email='rbobs@place.com', display_name='Rue Bob', password_hash=bcrypt.hashpw('RuePass'.encode(), bcrypt.gensalt())))
 session.commit()
 
 app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
