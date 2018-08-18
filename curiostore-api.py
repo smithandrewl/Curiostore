@@ -4,9 +4,9 @@ import datetime
 
 from bottle.ext import sqlalchemy
 from bottlejwt import JwtPlugin
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 Base = declarative_base()
 engine = create_engine('sqlite:///:memory:', echo=True)
@@ -56,9 +56,17 @@ def login(db):
         return {'error': 'invalid username or password'}
 
 
-@app.get("/", auth="any values and types")
-def example(auth):  # auth argument is optional!
-    return "ok"
+@app.get("/<user>/collection/", auth="any values and types")
+def example(user):
+    user = session.query(User).filter(User.display_name == user).first()
+
+    result = {}
+
+    for collection in user.collections:
+      result[ collection.name] = { "id": collection.id, "name": collection.name, "description": collection.description }
+
+    return result
+
 
 class User(Base):
     __tablename__ = 'user'
@@ -67,9 +75,20 @@ class User(Base):
     email = Column(String)
     display_name = Column(String)
     password_hash = Column(String)
-
+    collections = relationship("Collection", back_populates="user")
     def __repr__(self):
         return "<User(id ='{}', email = '{}', display_name = '{}'>".format(self.id, self.email, self.display_name)
+
+
+class Collection(Base):
+    __tablename__ = 'collection'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    name = Column(String)
+    description = Column(String)
+
+    user = relationship("User", back_populates="collections")
 
 
 Session = sessionmaker(bind=engine)
@@ -77,10 +96,17 @@ Session = sessionmaker(bind=engine)
 session=Session()
 Base.metadata.create_all(engine)
 
-session.add(User(email='tbob@place.com', display_name='Tim Bob', password_hash=bcrypt.hashpw('TimPass'.encode(), bcrypt.gensalt())))
+TimBob = User(email='tbob@place.com', display_name='TimBob', password_hash=bcrypt.hashpw('TimPass'.encode(), bcrypt.gensalt()))
+
+session.add(TimBob)
 session.add(User(email='bbob@place.com', display_name='Paul Bob', password_hash=bcrypt.hashpw('PaulPass'.encode(), bcrypt.gensalt())))
 session.add(User(email='jbob@place.com', display_name='John Bob', password_hash=bcrypt.hashpw('JohnPass'.encode(), bcrypt.gensalt())))
 session.add(User(email='rbob@place.com', display_name='Rue Bob', password_hash=bcrypt.hashpw('RuePass'.encode(), bcrypt.gensalt())))
+
+fossil_collection = Collection(user = TimBob, name="Fossils", description="Some fossils")
+
+session.add(fossil_collection)
+
 session.commit()
 
 app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
