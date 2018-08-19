@@ -55,6 +55,45 @@ def login(db):
         bottle.response.status = 401
         return {'error': 'invalid username or password'}
 
+
+@app.post("/<user>/collection/<name>", auth="any values and types")
+def update_collection(user, name, auth):
+    user = session.query(User).filter(User.display_name == user).first()
+
+    if not user:
+        bottle.response.status = 404
+        return {"error": "User not found"}
+
+    logged_in_user = session.query(User).filter(User.id == auth["id"]).first()
+
+    if not logged_in_user:
+        bottle.response.status = 403
+        return {"error": "Request denied"}
+
+    collection = session.query(Collection).filter(Collection.name == name).first()
+
+    if not collection:
+        bottle.response.status = 404
+        return {"error": "Collection not found"}
+
+    body = bottle.request.json
+
+    name_missing = "name" not in body
+    description_missing = "description" not in body
+
+    if name_missing or description_missing:
+        bottle.response.status = 400
+        return {"error": "Missing required parameters"}
+
+    collection_name = body["name"]
+    collection_description = body["description"]
+
+    collection.name = collection_name
+    collection.description = collection_description
+
+    session.commit()
+
+
 @app.delete("/<user>/collection/<collection>", auth="any values and types")
 def delete_collection(user, collection, auth):
     user = session.query(User).filter(User.display_name == user).first()
@@ -68,7 +107,6 @@ def delete_collection(user, collection, auth):
     if not logged_in_user:
         bottle.response.status = 403
         return {"error": "Request denied"}
-
 
     collection_record = session.query(Collection).filter(Collection.name == collection).first()
     collection_not_found = not collection_record
