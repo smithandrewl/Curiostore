@@ -93,6 +93,25 @@ def login(db):
         bottle.response.status = 401
         return {'error': 'invalid username or password'}
 
+@app.get("/<user>/collection/<name>", auth="any values and types")
+def get_collection(user, name, auth):
+    user = get_user_by_name(user)
+
+    if not user:
+        bottle.response.status = 404
+        return {"error": "User not found"}
+
+    if not is_user_logged_in(auth, user.display_name):
+        bottle.response.status = 403
+        return {"error": "Request denied"}
+
+    collection = get_collection_by_name(name)
+
+    if not collection:
+        bottle.response.status = 404
+        return {"error": "Collection not found"}
+
+    return {"id": collection.id, "name": collection.name, "description": collection.description}
 
 @app.post("/<user>/collection/<name>", auth="any values and types")
 def update_collection(user, name, auth):
@@ -246,6 +265,7 @@ class Collection(Base):
     description = Column(String)
 
     user = relationship("User", back_populates="collections")
+
 ###################### End SQLAlchemy Models #############################
 
 Session = sessionmaker(bind=engine)
