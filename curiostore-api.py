@@ -8,7 +8,8 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
-from model import engine, Base, Item, Collection, User, Session
+from model import engine, Base, Item, Collection, User, Session, get_user_by_name, is_user_logged_in, \
+    get_collection_by_name, get_item_by_name
 
 app = bottle.Bottle()
 
@@ -23,53 +24,7 @@ plugin = sqlalchemy.Plugin(
 
 app.install(plugin)
 
-def get_item_by_name(user, collection, name):
-    """
-    Searches for an item by name and returns it or None.
-    :param name: The name of the item to search for
-    :return: The matching item if found, or None otherwise.
-    """
 
-    user = get_user_by_name(user)
-    collection = get_collection_by_name(collection)
-
-    if not user:
-        return None
-
-    if not collection:
-        return None
-
-    return session.query(Item).filter(Item.name == name, Item.collection==collection, Collection.user == user).first()
-
-def get_user_by_name(name):
-    """
-    Searches for a user by display name and returns it or None.
-    :param name: The display name of the user to search for
-    :return: The matching user if found, or None otherwise.
-    """
-    return session.query(User).filter(User.display_name == name).first()
-
-def get_collection_by_name(name):
-    """
-    Searches for a collection by name and returns it or None.
-    :param name: The name of the collection to search for
-    :return: The matching collection if found, or None otherwise.
-    """
-    return session.query(Collection).filter(Collection.name == name).first()
-
-def is_user_logged_in(auth, user):
-    """
-    Returns whether or not the specified user is the currently logged in user.
-    :param auth: The JWT token sent by the client.
-    :param user: The display name of the user we want to verify is logged in.
-    :return: Whether or not the specified user is logged in according to the JWT token.
-    """
-    user_record = get_user_by_name(user)
-
-    if not user_record:
-        return False
-
-    return user_record.id == auth["id"]
 
 def validation(auth, auth_value):
     """
@@ -111,15 +66,15 @@ def login(db):
 
 @app.get("/<user>/collection/<name>", auth="any values and types")
 def get_collection(user, name, auth):
-    user = get_user_by_name(user)
+    user = get_user_by_name(session, user)
 
     if not user:
         return error_user_not_found()
 
-    if not is_user_logged_in(auth, user.display_name):
+    if not is_user_logged_in(session, auth, user.display_name):
         return error_request_denied()
 
-    collection = get_collection_by_name(name)
+    collection = get_collection_by_name(session, name)
 
     if not collection:
         return error_not_found("Collection")
@@ -144,15 +99,15 @@ def error_user_not_found():
 
 @app.post("/<user>/collection/<name>", auth="any values and types")
 def update_collection(user, name, auth):
-    user = get_user_by_name(user)
+    user = get_user_by_name(session, user)
 
     if not user:
         return error_user_not_found()
 
-    if not is_user_logged_in(auth, user.display_name):
+    if not is_user_logged_in(session, auth, user.display_name):
         return error_request_denied()
 
-    collection = get_collection_by_name(name)
+    collection = get_collection_by_name(session, name)
 
     if not collection:
         return error_not_found("Collection")
@@ -177,15 +132,15 @@ def update_collection(user, name, auth):
 
 @app.delete("/<user>/collection/<collection>", auth="any values and types")
 def delete_collection(user, collection, auth):
-    user = get_user_by_name(user)
+    user = get_user_by_name(session, user)
 
     if not user:
         return error_user_not_found()
 
-    if not is_user_logged_in(auth, user.display_name):
+    if not is_user_logged_in(session, auth, user.display_name):
         return error_request_denied()
 
-    collection_record = get_collection_by_name(collection)
+    collection_record = get_collection_by_name(session, collection)
     collection_not_found = not collection_record
 
     if collection_not_found:
@@ -196,12 +151,12 @@ def delete_collection(user, collection, auth):
 
 @app.post("/<user>/collection/", auth="any values and types")
 def add_collection(user,auth):
-    user = get_user_by_name(user)
+    user = get_user_by_name(session, user)
 
     if not user:
         return error_user_not_found()
 
-    if not is_user_logged_in(auth, user.display_name):
+    if not is_user_logged_in(session, auth, user.display_name):
         return error_request_denied()
 
     body = bottle.request.json
@@ -217,7 +172,7 @@ def add_collection(user,auth):
     name = body["name"]
     description = body["description"]
 
-    already_exists = get_collection_by_name(name)
+    already_exists = get_collection_by_name(session, name)
 
     if already_exists:
         bottle.response.status = 400
@@ -234,12 +189,12 @@ def add_collection(user,auth):
 
 @app.get("/<user>/collection/", auth="any values and types")
 def example(user,auth):
-    user = get_user_by_name(user)
+    user = get_user_by_name(session, user)
 
     if not user:
         return error_user_not_found()
 
-    if not is_user_logged_in(auth, user.display_name):
+    if not is_user_logged_in(session, auth, user.display_name):
         return error_request_denied()
 
     result = {}
@@ -255,22 +210,22 @@ def example(user,auth):
 
 @app.get("/<user>/collection/<collection_name>/<item_name>", auth="any values and types")
 def get_item(user, collection_name, item_name, auth):
-    user = get_user_by_name(user)
+    user = get_user_by_name(session, user)
 
     if not user:
         return error_user_not_found()
 
-    if not is_user_logged_in(auth, user.display_name):
+    if not is_user_logged_in(session, auth, user.display_name):
         return error_request_denied()
 
 
-    collection = get_collection_by_name(collection_name)
+    collection = get_collection_by_name(session, collection_name)
 
     if not collection:
         return error_not_found("Collection")
 
 
-    item = get_item_by_name(user.display_name, collection.name, item_name)
+    item = get_item_by_name(session, user.display_name, collection.name, item_name)
 
     if not item:
         return error_not_found("Item")

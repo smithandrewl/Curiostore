@@ -50,3 +50,51 @@ class Item(Base):
     description = Column(String)
 
     collection = relationship("Collection", back_populates="items")
+
+def get_item_by_name(session, user, collection, name):
+    """
+    Searches for an item by name and returns it or None.
+    :param name: The name of the item to search for
+    :return: The matching item if found, or None otherwise.
+    """
+
+    user = get_user_by_name(session, user)
+    collection = get_collection_by_name(session, collection)
+
+    if not user:
+        return None
+
+    if not collection:
+        return None
+
+    return session.query(Item).filter(Item.name == name, Item.collection==collection, Collection.user == user).first()
+
+def get_user_by_name(session, name):
+    """
+    Searches for a user by display name and returns it or None.
+    :param name: The display name of the user to search for
+    :return: The matching user if found, or None otherwise.
+    """
+    return session.query(User).filter(User.display_name == name).first()
+
+def get_collection_by_name(session, name):
+    """
+    Searches for a collection by name and returns it or None.
+    :param name: The name of the collection to search for
+    :return: The matching collection if found, or None otherwise.
+    """
+    return session.query(Collection).filter(Collection.name == name).first()
+
+def is_user_logged_in(session, auth, user):
+    """
+    Returns whether or not the specified user is the currently logged in user.
+    :param auth: The JWT token sent by the client.
+    :param user: The display name of the user we want to verify is logged in.
+    :return: Whether or not the specified user is logged in according to the JWT token.
+    """
+    user_record = get_user_by_name(session, user)
+
+    if not user_record:
+        return False
+
+    return user_record.id == auth["id"]
