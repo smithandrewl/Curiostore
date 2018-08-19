@@ -124,6 +124,11 @@ def update_collection(user, name, auth):
     collection_name = body["name"]
     collection_description = body["description"]
 
+    existing_collection = get_collection_by_name(session, collection_name)
+
+    if existing_collection:
+        return {"error": "A collection already exists with this name."}
+
     collection.name = collection_name
     collection.description = collection_description
 
