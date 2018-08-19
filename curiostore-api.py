@@ -24,6 +24,22 @@ plugin = sqlalchemy.Plugin(
 
 app.install(plugin)
 
+
+def get_user_by_name(name):
+    return session.query(User).filter(User.display_name == name).first()
+
+
+def get_collection_by_name(name):
+    return session.query(Collection).filter(Collection.name == name).first()
+
+def is_user_logged_in(auth, user):
+    user_record = get_user_by_name(user)
+
+    if not user_record:
+        return False
+
+    return user_record.id == auth["id"]
+
 def validation(auth, auth_value):
 
     if 'exp' not in auth:
@@ -58,19 +74,17 @@ def login(db):
 
 @app.post("/<user>/collection/<name>", auth="any values and types")
 def update_collection(user, name, auth):
-    user = session.query(User).filter(User.display_name == user).first()
+    user = get_user_by_name(user)
 
     if not user:
         bottle.response.status = 404
         return {"error": "User not found"}
 
-    logged_in_user = session.query(User).filter(User.id == auth["id"]).first()
-
-    if not logged_in_user:
+    if not is_user_logged_in(auth, user.display_name):
         bottle.response.status = 403
         return {"error": "Request denied"}
 
-    collection = session.query(Collection).filter(Collection.name == name).first()
+    collection = get_collection_by_name(name)
 
     if not collection:
         bottle.response.status = 404
@@ -96,19 +110,17 @@ def update_collection(user, name, auth):
 
 @app.delete("/<user>/collection/<collection>", auth="any values and types")
 def delete_collection(user, collection, auth):
-    user = session.query(User).filter(User.display_name == user).first()
+    user = get_user_by_name(user)
 
     if not user:
         bottle.response.status = 404
         return {"error": "User not found"}
 
-    logged_in_user = session.query(User).filter(User.id == auth["id"]).first()
-
-    if not logged_in_user:
+    if not is_user_logged_in(auth, user.display_name):
         bottle.response.status = 403
         return {"error": "Request denied"}
 
-    collection_record = session.query(Collection).filter(Collection.name == collection).first()
+    collection_record = get_collection_by_name(collection)
     collection_not_found = not collection_record
 
     if collection_not_found:
@@ -120,17 +132,13 @@ def delete_collection(user, collection, auth):
 
 @app.post("/<user>/collection/", auth="any values and types")
 def add_collection(user,auth):
-    print("add_collection({}, {})".format(user, auth))
-    user = session.query(User).filter(User.display_name == user).first()
-    print("Query finished, user = {}".format(repr(user)))
+    user = get_user_by_name(user)
 
     if not user:
         bottle.response.status = 404
         return {"error": "User not found"}
 
-    logged_in_user = session.query(User).filter(User.id == auth["id"]).first()
-
-    if not logged_in_user:
+    if not is_user_logged_in(auth, user.display_name):
         bottle.response.status = 403
         return {"error": "Request denied"}
 
@@ -147,7 +155,7 @@ def add_collection(user,auth):
     name = body["name"]
     description = body["description"]
 
-    already_exists = session.query(Collection).filter(Collection.name == name).first()
+    already_exists = get_collection_by_name(name)
 
     if already_exists:
         bottle.response.status = 400
@@ -163,15 +171,20 @@ def add_collection(user,auth):
     # user id from the auth token does not match the user specified
 
 @app.get("/<user>/collection/", auth="any values and types")
-def example(user):
-    user = session.query(User).filter(User.display_name == user).first()
-
-
-    result = {}
+def example(user,auth):
+    user = get_user_by_name(user)
 
     if not user:
         bottle.response.status = 404
         return {"error": "User not found"}
+
+    if not is_user_logged_in(auth, user.display_name):
+        bottle.response.status = 403
+        return {"error": "Request denied"}
+
+    result = {}
+
+
 
     for collection in user.collections:
       result[ collection.name] = { "id": collection.id, "name": collection.name, "description": collection.description }
