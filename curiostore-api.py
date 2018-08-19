@@ -24,6 +24,25 @@ plugin = sqlalchemy.Plugin(
 
 app.install(plugin)
 
+def get_item_by_name(user, collection, name):
+    """
+    Searches for an item by name and returns it or None.
+    :param name: The name of the item to search for
+    :return: The matching item if found, or None otherwise.
+    """
+
+    user = get_user_by_name(user)
+    collection = get_collection_by_name(collection)
+
+    if not user:
+        return None
+
+    if not collection:
+        return None
+
+
+
+    return session.query(Item).filter(Item.name == name, Item.collection==collection, Collection.user == user).first()
 
 def get_user_by_name(name):
     """
@@ -233,6 +252,38 @@ def example(user,auth):
       }
 
     return result
+
+@app.get("/<user>/collection/<collection_name>/<item_name>", auth="any values and types")
+def get_item(user, collection_name, item_name, auth):
+    user = get_user_by_name(user)
+
+    if not user:
+        bottle.response.status = 404
+        return {"error": "User not found"}
+
+    if not is_user_logged_in(auth, user.display_name):
+        bottle.response.status = 403
+        return {"error": "Request denied"}
+
+
+    collection = get_collection_by_name(collection_name)
+
+    if not collection:
+        bottle.response.status = 404
+        return {"error": "Collection not found"}
+
+
+    item = get_item_by_name(user.display_name, collection.name, item_name)
+
+    if not item:
+        bottle.response.status = 404
+        return {"error": "Item not found"}
+
+    return {
+        "id": item.id,
+        "name": item.name,
+        "description": item.description
+    }
 ####################### End API Endpoints ##############################
 
 
@@ -314,20 +365,23 @@ session.add(
     )
 )
 
-session.add(
-    User(
-        email='rbob@place.com',
-        display_name='Rue Bob',
-        password_hash=bcrypt.hashpw('RuePass'.encode(), bcrypt.gensalt())
-    )
+RueBob =  User(
+    email='rbob@place.com',
+    display_name='Rue Bob',
+    password_hash=bcrypt.hashpw('RuePass'.encode(), bcrypt.gensalt())
 )
+session.add(RueBob)
 
 fossil_collection = Collection(
-    user = TimBob,
+    user = RueBob,
     name="Fossils",
     description="Some fossils"
 )
 session.add(fossil_collection)
+
+fossil = Item(collection = fossil_collection, name="A fossil", description="A fossil for the collection")
+session.add(fossil)
+
 session.commit()
 ###################### End Test Data Insertion #############################
 
