@@ -265,6 +265,17 @@ class Collection(Base):
     description = Column(String)
 
     user = relationship("User", back_populates="collections")
+    items = relationship("Item", back_populates="collection")
+
+class Item(Base):
+    __tablename__ = 'item'
+
+    id = Column(Integer, primary_key=True)
+    collection_id = Column(Integer, ForeignKey("collection.id"))
+    name = Column(String)
+    description = Column(String)
+
+    collection = relationship("Collection", back_populates="items")
 
 ###################### End SQLAlchemy Models #############################
 
