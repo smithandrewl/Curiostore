@@ -28,7 +28,6 @@ app.install(plugin)
 def get_user_by_name(name):
     return session.query(User).filter(User.display_name == name).first()
 
-
 def get_collection_by_name(name):
     return session.query(Collection).filter(Collection.name == name).first()
 
@@ -184,13 +183,10 @@ def example(user,auth):
 
     result = {}
 
-
-
     for collection in user.collections:
       result[ collection.name] = { "id": collection.id, "name": collection.name, "description": collection.description }
 
     return result
-
 
 class User(Base):
     __tablename__ = 'user'
@@ -213,7 +209,6 @@ class Collection(Base):
     description = Column(String)
 
     user = relationship("User", back_populates="collections")
-
 
 Session = sessionmaker(bind=engine)
 
