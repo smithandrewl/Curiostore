@@ -268,6 +268,10 @@ class Collection(Base):
     items = relationship("Item", back_populates="collection")
 
 class Item(Base):
+    """
+    The model class representing a single item belonging to a single collection.
+    """
+
     __tablename__ = 'item'
 
     id = Column(Integer, primary_key=True)
