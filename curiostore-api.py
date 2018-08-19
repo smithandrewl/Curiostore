@@ -26,12 +26,28 @@ app.install(plugin)
 
 
 def get_user_by_name(name):
+    """
+    Searches for a user by display name and returns it or None.
+    :param name: The display name of the user to search for
+    :return: The matching user if found, or None otherwise.
+    """
     return session.query(User).filter(User.display_name == name).first()
 
 def get_collection_by_name(name):
+    """
+    Searches for a collection by name and returns it or None.
+    :param name: The name of the collection to search for
+    :return: The matching collection if found, or None otherwise.
+    """
     return session.query(Collection).filter(Collection.name == name).first()
 
 def is_user_logged_in(auth, user):
+    """
+    Returns whether or not the specified user is the currently logged in user.
+    :param auth: The JWT token sent by the client.
+    :param user: The display name of the user we want to verify is logged in.
+    :return: Whether or not the specified user is logged in according to the JWT token.
+    """
     user_record = get_user_by_name(user)
 
     if not user_record:
@@ -40,6 +56,12 @@ def is_user_logged_in(auth, user):
     return user_record.id == auth["id"]
 
 def validation(auth, auth_value):
+    """
+    Determines whether or not the JWT is valid.
+    :param auth: The JWT token.
+    :param auth_value: Passed in by the bottle jwt plugin.
+    :return: Returns whether or not the JWT token is valid.
+    """
 
     if 'exp' not in auth:
         return False
@@ -49,6 +71,7 @@ def validation(auth, auth_value):
 
     return current_time < expiration_time
 
+###################### Begin API Endpoints #############################
 @app.post("/login")
 def login(db):
     body = bottle.request.json
@@ -184,11 +207,22 @@ def example(user,auth):
     result = {}
 
     for collection in user.collections:
-      result[ collection.name] = { "id": collection.id, "name": collection.name, "description": collection.description }
+      result[ collection.name] = {
+          "id": collection.id,
+          "name": collection.name,
+          "description": collection.description
+      }
 
     return result
+####################### End API Endpoints ##############################
 
+
+###################### Begin SQLAlchemy Models #############################
 class User(Base):
+    """
+    The model class representing user accounts.
+    """
+
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
@@ -201,6 +235,9 @@ class User(Base):
 
 
 class Collection(Base):
+    """
+    The model class representing a single collection belonging to a single user account.
+    """
     __tablename__ = 'collection'
 
     id = Column(Integer, primary_key=True)
@@ -209,24 +246,55 @@ class Collection(Base):
     description = Column(String)
 
     user = relationship("User", back_populates="collections")
+###################### End SQLAlchemy Models #############################
 
 Session = sessionmaker(bind=engine)
 
 session=Session()
 Base.metadata.create_all(engine)
 
-TimBob = User(email='tbob@place.com', display_name='TimBob', password_hash=bcrypt.hashpw('TimPass'.encode(), bcrypt.gensalt()))
 
+
+###################### Begin Test Data Insertion #############################
+TimBob = User(
+    email='tbob@place.com',
+    display_name='TimBob',
+    password_hash=bcrypt.hashpw('TimPass'.encode(), bcrypt.gensalt())
+)
 session.add(TimBob)
-session.add(User(email='bbob@place.com', display_name='Paul Bob', password_hash=bcrypt.hashpw('PaulPass'.encode(), bcrypt.gensalt())))
-session.add(User(email='jbob@place.com', display_name='John Bob', password_hash=bcrypt.hashpw('JohnPass'.encode(), bcrypt.gensalt())))
-session.add(User(email='rbob@place.com', display_name='Rue Bob', password_hash=bcrypt.hashpw('RuePass'.encode(), bcrypt.gensalt())))
 
-fossil_collection = Collection(user = TimBob, name="Fossils", description="Some fossils")
+session.add(
+    User(
+        email='bbob@place.com',
+        display_name='Paul Bob',
+        password_hash=bcrypt.hashpw('PaulPass'.encode(), bcrypt.gensalt())
+    )
+)
 
+session.add(
+    User(
+        email='jbob@place.com',
+        display_name='John Bob',
+        password_hash=bcrypt.hashpw('JohnPass'.encode(), bcrypt.gensalt())
+    )
+)
+
+session.add(
+    User(
+        email='rbob@place.com',
+        display_name='Rue Bob',
+        password_hash=bcrypt.hashpw('RuePass'.encode(), bcrypt.gensalt())
+    )
+)
+
+fossil_collection = Collection(
+    user = TimBob,
+    name="Fossils",
+    description="Some fossils"
+)
 session.add(fossil_collection)
-
 session.commit()
+###################### End Test Data Insertion #############################
 
 app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
 app.run(host="0.0.0.0", port="9988")
