@@ -55,6 +55,31 @@ def login(db):
         bottle.response.status = 401
         return {'error': 'invalid username or password'}
 
+@app.delete("/<user>/collection/<collection>", auth="any values and types")
+def delete_collection(user, collection, auth):
+    user = session.query(User).filter(User.display_name == user).first()
+
+    if not user:
+        bottle.response.status = 404
+        return {"error": "User not found"}
+
+    logged_in_user = session.query(User).filter(User.id == auth["id"]).first()
+
+    if not logged_in_user:
+        bottle.response.status = 403
+        return {"error": "Request denied"}
+
+
+    collection_record = session.query(Collection).filter(Collection.name == collection).first()
+    collection_not_found = not collection_record
+
+    if collection_not_found:
+        bottle.response.status = 404
+        return {"error": "Collection not found"}
+
+    session.delete(collection_record)
+    session.commit()
+
 @app.post("/<user>/collection/", auth="any values and types")
 def add_collection(user,auth):
     print("add_collection({}, {})".format(user, auth))
