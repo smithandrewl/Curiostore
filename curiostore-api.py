@@ -40,8 +40,6 @@ def get_item_by_name(user, collection, name):
     if not collection:
         return None
 
-
-
     return session.query(Item).filter(Item.name == name, Item.collection==collection, Collection.user == user).first()
 
 def get_user_by_name(name):
@@ -117,38 +115,48 @@ def get_collection(user, name, auth):
     user = get_user_by_name(user)
 
     if not user:
-        bottle.response.status = 404
-        return {"error": "User not found"}
+        return error_user_not_found()
 
     if not is_user_logged_in(auth, user.display_name):
-        bottle.response.status = 403
-        return {"error": "Request denied"}
+        return error_request_denied()
 
     collection = get_collection_by_name(name)
 
     if not collection:
-        bottle.response.status = 404
-        return {"error": "Collection not found"}
+        return error_not_found("Collection")
 
     return {"id": collection.id, "name": collection.name, "description": collection.description}
+
+
+def error_not_found(entity):
+    bottle.response.status = 404
+    return {"error": "{} not found".format(entity)}
+
+
+def error_request_denied():
+    bottle.response.status = 403
+    return {"error": "Request denied"}
+
+
+def error_user_not_found():
+    bottle.response.status = 404
+    return {"error": "User not found"}
+
 
 @app.post("/<user>/collection/<name>", auth="any values and types")
 def update_collection(user, name, auth):
     user = get_user_by_name(user)
 
     if not user:
-        bottle.response.status = 404
-        return {"error": "User not found"}
+        return error_user_not_found()
 
     if not is_user_logged_in(auth, user.display_name):
-        bottle.response.status = 403
-        return {"error": "Request denied"}
+        return error_request_denied()
 
     collection = get_collection_by_name(name)
 
     if not collection:
-        bottle.response.status = 404
-        return {"error": "Collection not found"}
+        return error_not_found("Collection")
 
     body = bottle.request.json
 
@@ -173,19 +181,16 @@ def delete_collection(user, collection, auth):
     user = get_user_by_name(user)
 
     if not user:
-        bottle.response.status = 404
-        return {"error": "User not found"}
+        return error_user_not_found()
 
     if not is_user_logged_in(auth, user.display_name):
-        bottle.response.status = 403
-        return {"error": "Request denied"}
+        return error_request_denied()
 
     collection_record = get_collection_by_name(collection)
     collection_not_found = not collection_record
 
     if collection_not_found:
-        bottle.response.status = 404
-        return {"error": "Collection not found"}
+        return error_not_found("Collection")
 
     session.delete(collection_record)
     session.commit()
@@ -195,12 +200,10 @@ def add_collection(user,auth):
     user = get_user_by_name(user)
 
     if not user:
-        bottle.response.status = 404
-        return {"error": "User not found"}
+        return error_user_not_found()
 
     if not is_user_logged_in(auth, user.display_name):
-        bottle.response.status = 403
-        return {"error": "Request denied"}
+        return error_request_denied()
 
     body = bottle.request.json
 
@@ -235,12 +238,10 @@ def example(user,auth):
     user = get_user_by_name(user)
 
     if not user:
-        bottle.response.status = 404
-        return {"error": "User not found"}
+        return error_user_not_found()
 
     if not is_user_logged_in(auth, user.display_name):
-        bottle.response.status = 403
-        return {"error": "Request denied"}
+        return error_request_denied()
 
     result = {}
 
@@ -258,26 +259,22 @@ def get_item(user, collection_name, item_name, auth):
     user = get_user_by_name(user)
 
     if not user:
-        bottle.response.status = 404
-        return {"error": "User not found"}
+        return error_user_not_found()
 
     if not is_user_logged_in(auth, user.display_name):
-        bottle.response.status = 403
-        return {"error": "Request denied"}
+        return error_request_denied()
 
 
     collection = get_collection_by_name(collection_name)
 
     if not collection:
-        bottle.response.status = 404
-        return {"error": "Collection not found"}
+        return error_not_found("Collection")
 
 
     item = get_item_by_name(user.display_name, collection.name, item_name)
 
     if not item:
-        bottle.response.status = 404
-        return {"error": "Item not found"}
+        return error_not_found("Item")
 
     return {
         "id": item.id,
