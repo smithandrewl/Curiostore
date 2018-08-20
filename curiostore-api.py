@@ -96,7 +96,6 @@ def error_user_not_found():
     bottle.response.status = 404
     return {"error": "User not found"}
 
-
 @app.post("/<user>/collection/<name>", auth="any values and types")
 def update_collection(user, name, auth):
     user = get_user_by_name(session, user)
@@ -240,6 +239,43 @@ def get_item(user, collection_name, item_name, auth):
         "name": item.name,
         "description": item.description
     }
+
+
+
+@app.post("/<user>/<collection>/item", auth="any values and types")
+def add_item(user, collection):
+    user = get_user_by_name(session, user)
+
+    if not user:
+        return error_user_not_found()
+
+    collection = get_collection_by_name(session, collection)
+
+    if not collection:
+        return error_not_found("Collection")
+
+
+    body = bottle.request.json
+
+    name_missing = "name" not in body
+    description_missing = "description" not in body
+
+    if name_missing or description_missing:
+        bottle.response.status = 400
+        return {"error": "Missing required parameters."}
+
+    name = body["name"]
+    description = body["description"]
+
+    existing_item = get_item_by_name(session, user.display_name, collection.name, name)
+
+    if existing_item:
+        bottle.response.status = 400
+        return {"error": "There is already an item in the collection with that name."}
+
+    session.add(Item(collection = collection, name = name, description = description))
+    session.commit()
+
 ####################### End API Endpoints ##############################
 
 
