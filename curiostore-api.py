@@ -276,6 +276,26 @@ def add_item(user, collection):
     session.add(Item(collection = collection, name = name, description = description))
     session.commit()
 
+@app.delete("/<user>/<collection>/<item>", auth="any values and types")
+def delete_item(user, collection, item):
+    user = get_user_by_name(session, user)
+
+    if not user:
+        return error_user_not_found()
+
+    collection = get_collection_by_name(session, collection)
+
+    if not collection:
+        return error_not_found("Collection")
+
+    item = get_item_by_name(session, user.display_name, collection.name, item)
+
+    if not item:
+        return error_not_found("Item")
+
+    session.delete(item)
+
+
 ####################### End API Endpoints ##############################
 
 
