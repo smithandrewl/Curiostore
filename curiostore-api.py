@@ -348,6 +348,11 @@ session.add(fossil)
 
 session.commit()
 ###################### End Test Data Insertion #############################
+@app.hook('after_request')
+def enable_cors():
+    bottle.response.headers['Access-Control-Allow-Origin'] = '*'
+    bottle.response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
+    bottle.response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
 app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
 app.run(host="0.0.0.0", port="9988")
