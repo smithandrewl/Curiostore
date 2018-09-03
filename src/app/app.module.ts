@@ -5,6 +5,15 @@ import { AppComponent } from './app.component';
 import { RouterModule, Routes, Router} from '@angular/router';
 import { LoginComponent } from './login/login.component';
 
+import { JwtModule } from '@auth0/angular-jwt';
+import { HttpClientModule } from '@angular/common/http';
+
+import { FormsModule} from '@angular/forms';
+
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
+
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent}
@@ -16,6 +25,15 @@ const appRoutes: Routes = [
     LoginComponent
   ],
   imports: [
+    FormsModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:9988'],
+        blacklistedRoutes: ['localhost:9988/login/']
+      }
+    }),
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: true}
