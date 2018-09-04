@@ -43,13 +43,17 @@ def validation(auth, auth_value):
     return current_time < expiration_time
 
 ###################### Begin API Endpoints #############################
-@app.post("/login")
+@app.post("/login", method=['OPTIONS', 'POST'])
 def login(db):
     body = bottle.request.json
     email = body["email"]
     password = body["password"]
 
     user = session.query(User).filter(User.email == email).first()
+
+    if not user:
+        bottle.response.status = 401
+        return {'error': 'invalid username or password'}
 
     authenticated = bcrypt.checkpw(password.encode(), user.password_hash)
 
@@ -296,6 +300,26 @@ def delete_item(user, collection, item):
     session.delete(item)
 
 
+
+############################
+class EnableCors(object):
+    name = 'enable_cors'
+    api = 2
+
+    def apply(self, fn, context):
+        def _enable_cors(*args, **kwargs):
+            # set CORS headers
+            bottle.response.headers['Access-Control-Allow-Origin'] = '*'
+            bottle.response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
+            bottle.response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+
+            if bottle.request.method != 'OPTIONS':
+                # actual request; reply with the actual response
+                return fn(*args, **kwargs)
+
+        return _enable_cors
+############################
+
 ####################### End API Endpoints ##############################
 
 
@@ -348,11 +372,9 @@ session.add(fossil)
 
 session.commit()
 ###################### End Test Data Insertion #############################
-@app.hook('after_request')
-def enable_cors():
-    bottle.response.headers['Access-Control-Allow-Origin'] = '*'
-    bottle.response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
-    bottle.response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+
 
 app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
+app.install(EnableCors())
+
 app.run(host="0.0.0.0", port="9988")
