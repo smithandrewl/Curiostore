@@ -46,6 +46,12 @@ def validation(auth, auth_value):
 @app.post("/login", method=['OPTIONS', 'POST'])
 def login(db):
     body = bottle.request.json
+
+    if ("email" not in body) or ("password" not in body):
+        bottle.response.status = 400
+        return {'error': "'email' and 'password' fields are required"}
+
+
     email = body["email"]
     password = body["password"]
 
