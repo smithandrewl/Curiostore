@@ -64,12 +64,14 @@ def login(db):
     authenticated = bcrypt.checkpw(password.encode(), user.password_hash)
 
     if authenticated:
-        return  JwtPlugin.encode(
-            {
-                'id': user.id,
-                'exp': (datetime.datetime.utcnow() + datetime.timedelta(seconds= 60 * 10000)).timestamp()
-            }
-        )
+        return  {
+            'token': JwtPlugin.encode(
+                {
+                    'id': user.id,
+                    'exp': (datetime.datetime.utcnow() + datetime.timedelta(seconds= 60 * 10000)).timestamp()
+                }
+            )
+        }
     else:
         bottle.response.status = 401
         return {'error': 'invalid username or password'}
@@ -317,7 +319,7 @@ class EnableCors(object):
             # set CORS headers
             bottle.response.headers['Access-Control-Allow-Origin'] = '*'
             bottle.response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
-            bottle.response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+            bottle.response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token, Authorization'
 
             if bottle.request.method != 'OPTIONS':
                 # actual request; reply with the actual response
