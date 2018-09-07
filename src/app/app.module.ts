@@ -9,6 +9,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule} from '@angular/forms';
+import { PortalComponent } from './portal/portal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -16,13 +17,19 @@ export function tokenGetter() {
 
 
 const appRoutes: Routes = [
-  { path: '', component: LoginComponent}
+  {
+    path: '', component: LoginComponent
+  },
+  {
+    path: 'portal', component: PortalComponent
+  }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    PortalComponent
   ],
   imports: [
     FormsModule,

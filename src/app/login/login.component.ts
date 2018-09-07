@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SecurityService } from '../security.service';
 
 import { take, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   username;
   password;
 
-  constructor(private security: SecurityService) { }
+  constructor(private security: SecurityService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
       (data: any) => {
         console.log(JSON.stringify(data));
         localStorage.setItem('access_token', data.token);
+        this.router.navigateByUrl('portal');
       }
     );
   }
