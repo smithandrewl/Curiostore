@@ -13,10 +13,11 @@ export class SecurityService {
 
   login(username: string, password: string): Observable<Object> {
     return this.http.post(
-      this.BASE_URL + '/login', {
-      email: username,
-      password: password
-    }
-  );
+      `${this.BASE_URL}/login`,
+      {
+        email:    username,
+        password: password
+      }
+    );
   }
 }
