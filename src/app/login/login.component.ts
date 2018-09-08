@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SecurityService } from '../security.service';
+import { SecurityService } from '../shared/services/security.service';
 
 import { take, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
