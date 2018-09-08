@@ -10,6 +10,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule} from '@angular/forms';
 import { PortalComponent } from './portal/portal.component';
+import { AddComponent } from './portal/add/add.component';
+import { CollectionsComponent } from './portal/collections/collections.component';
+import { LookupComponent } from './portal/lookup/lookup.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -21,7 +24,14 @@ const appRoutes: Routes = [
     path: '', component: LoginComponent
   },
   {
-    path: 'portal', component: PortalComponent
+    path: 'portal',
+    component: PortalComponent,
+    children: [
+      { path: '', redirectTo: 'collections', pathMatch: 'full'},
+      { path: 'add', component: AddComponent},
+      { path: 'collections', component: CollectionsComponent},
+      { path: 'lookup', component: LookupComponent}
+    ]
   }
 ];
 
@@ -29,7 +39,10 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    PortalComponent
+    PortalComponent,
+    AddComponent,
+    CollectionsComponent,
+    LookupComponent
   ],
   imports: [
     FormsModule,
