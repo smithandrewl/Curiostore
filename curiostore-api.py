@@ -166,7 +166,7 @@ def delete_collection(user, collection, auth):
     session.commit()
 
 @app.post("/<user>/collection/", auth="any values and types")
-def add_collection(user,auth):
+def add_collection(user, auth):
     user = get_user_by_name(session, user)
 
     if not user:
@@ -204,7 +204,7 @@ def add_collection(user,auth):
     # user id from the auth token does not match the user specified
 
 @app.get("/<user>/collection/", auth="any values and types")
-def example(user,auth):
+def example(user, auth):
     user = get_user_by_name(session, user)
 
     if not user:
@@ -381,8 +381,8 @@ session.add(fossil)
 session.commit()
 ###################### End Test Data Insertion #############################
 
-
-app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
 app.install(EnableCors())
+app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
+
 
 app.run(host="0.0.0.0", port="9988")
