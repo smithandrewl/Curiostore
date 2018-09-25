@@ -317,7 +317,7 @@ class EnableCors(object):
     def apply(self, fn, context):
         def _enable_cors(*args, **kwargs):
             # set CORS headers
-            bottle.response.headers['Access-Control-Allow-Origin'] = '*'
+            bottle.response.headers['Access-Control-Allow-Origin'] = 'localhost'
             bottle.response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
             bottle.response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token, Authorization'
 
