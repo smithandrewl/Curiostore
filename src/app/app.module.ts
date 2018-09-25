@@ -14,11 +14,6 @@ import { AddComponent } from './portal/add/add.component';
 import { CollectionsComponent } from './portal/collections/collections.component';
 import { LookupComponent } from './portal/lookup/lookup.component';
 
-export function tokenGetter() {
-  return localStorage.getItem('access_token');
-}
-
-
 const appRoutes: Routes = [
   {
     path: '', component: LoginComponent
@@ -47,13 +42,6 @@ const appRoutes: Routes = [
   imports: [
     FormsModule,
     HttpClientModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:9988'],
-        blacklistedRoutes: ['localhost:9988/login/']
-      }
-    }),
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: true}

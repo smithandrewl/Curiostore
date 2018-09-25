@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClientModule, HttpClient} from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -8,7 +9,7 @@ import {Observable} from 'rxjs';
 })
 export class SecurityService {
 
-  readonly BASE_URL = 'http://localhost:9988';
+  readonly BASE_URL = 'http://localhost/api';
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<Object> {
@@ -18,6 +19,12 @@ export class SecurityService {
         email:    username,
         password: password
       }
+    ).pipe(
+      map((data: any) => {
+        const token = data.token;
+        localStorage.setItem('accesstoken', token);
+        return data;
+      })
     );
   }
 }

@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.security.login(this.username, this.password).subscribe(
       (data: any) => {
         console.log(JSON.stringify(data));
-        localStorage.setItem('access_token', data.token);
+        localStorage.setItem('accesstoken', data.token);
         this.router.navigateByUrl('portal');
       }
     );
