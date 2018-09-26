@@ -13,6 +13,7 @@ import { PortalComponent } from './portal/portal.component';
 import { AddComponent } from './portal/add/add.component';
 import { CollectionsComponent } from './portal/collections/collections.component';
 import { LookupComponent } from './portal/lookup/lookup.component';
+import { CollectionComponent } from './portal/collections/collection/collection.component';
 
 const appRoutes: Routes = [
   {
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
       { path: '', redirectTo: 'collections', pathMatch: 'full'},
       { path: 'add', component: AddComponent},
       { path: 'collections', component: CollectionsComponent},
+      { path: 'collections/:id', component: CollectionComponent},
       { path: 'lookup', component: LookupComponent}
     ]
   }
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     PortalComponent,
     AddComponent,
     CollectionsComponent,
-    LookupComponent
+    LookupComponent,
+    CollectionComponent
   ],
   imports: [
     FormsModule,
