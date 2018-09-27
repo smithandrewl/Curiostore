@@ -5,7 +5,7 @@
 <div class="row text-center text-lg-left bg-success">
   <div class="col-lg-3 col-md-4 col-xs-6" *ngFor="let collection of collectionList">
     {{collection.name}}
-    <a class="d-block mb-4 h-100"  [routerLink]="[ '/portal/collections/', collection.id]">
+    <a class="d-block mb-4 h-100"  [routerLink]="[ '/portal/collections/', collection.name]">
     <img class="img img-thumbnail" src="https://source.unsplash.com/random/640x360">
     </a>
   </div>  

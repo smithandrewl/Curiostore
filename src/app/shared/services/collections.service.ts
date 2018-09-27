@@ -43,4 +43,8 @@ export class CollectionsService {
       );
      }));
   }
+
+  getCollection(user: string, name: string) {
+    return this.httpClient.get<Collection>(`${this.BASE_URL}/${user}/collection/${name}`, this.getHeaders());
+  }
 }
