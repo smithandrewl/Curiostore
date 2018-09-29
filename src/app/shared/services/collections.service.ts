@@ -12,7 +12,9 @@ export class CollectionsService {
   readonly BASE_URL = 'http://localhost/api';
   constructor(private httpClient: HttpClient, private logger: NGXLogger) { }
 
-
+  /**
+   * Returns http headers containing a content-type and bearer token for making calls.
+   */
   getHeaders() {
     this.logger.debug('CollectionService.getHeaders():');
     const token = localStorage.getItem('accesstoken');
@@ -33,6 +35,9 @@ export class CollectionsService {
     return headers;
   }
 
+  /**
+   * Returns all collections.
+   */
   getCollections(): Observable<Array<Collection>> {
     this.logger.debug('CollectionService.getCollections():');
 
@@ -62,6 +67,12 @@ export class CollectionsService {
      }));
   }
 
+  /**
+   * Gets information about a specific users collection.
+   *
+   * @param user The user the collection belongs too.
+   * @param name The name of the collection.
+   */
   getCollection(user: string, name: string) {
     this.logger.debug('CollectionService.getCollection');
     this.logger.debug(`Calling ${this.BASE_URL}/${user}/collection/${name}`);
