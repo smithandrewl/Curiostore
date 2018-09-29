@@ -11,7 +11,7 @@ export class CollectionComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private collectionService: CollectionsService) { }
 
-  collection: Collection;
+  collection: Collection = <Collection>{};
   items: any;
 
   ngOnInit() {
