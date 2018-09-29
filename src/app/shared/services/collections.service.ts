@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
   providedIn: 'root'
@@ -9,18 +10,23 @@ import { map } from 'rxjs/operators';
 export class CollectionsService {
 
   readonly BASE_URL = 'http://localhost/api';
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private logger: NGXLogger) { }
 
 
   getHeaders() {
+    this.logger.debug('CollectionService.getHeaders():');
     const token = localStorage.getItem('accesstoken');
+
+    const headersBody =         {
+      'Content-Type' : 'application/json; charset=utf-8',
+      'Authorization' : `Bearer ${token}`
+    };
+
+    this.logger.debug(`Headers = ${JSON.stringify(headersBody, null, 2)}`);
 
     const headers = {
       headers: new HttpHeaders(
-        {
-          'Content-Type' : 'application/json; charset=utf-8',
-          'Authorization' : `Bearer ${token}`
-        }
+        headersBody
       )
     };
 
