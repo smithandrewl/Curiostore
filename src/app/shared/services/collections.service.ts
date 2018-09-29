@@ -34,9 +34,16 @@ export class CollectionsService {
   }
 
   getCollections(): Observable<Array<Collection>> {
+    this.logger.debug('CollectionService.getCollections():');
+
+    this.logger.debug(`Calling ${this.logger}/Rue Bob/collection/`);
     return this.httpClient.get(`${ this.BASE_URL }/Rue Bob/collection/`, this.getHeaders()).pipe(
      map(data => {
-       return Object.keys(data).map(
+
+      this.logger.debug('Server replied with:');
+      this.logger.debug(`${JSON.stringify(data, null, 2)}`);
+
+      const transformed = Object.keys(data).map(
          collection => {
            const col = data[collection];
 
@@ -47,10 +54,17 @@ export class CollectionsService {
            };
         }
       );
+
+      this.logger.debug('Transformed server data into:');
+      this.logger.debug(JSON.stringify(transformed, null, 2));
+
+      return transformed;
      }));
   }
 
   getCollection(user: string, name: string) {
+    this.logger.debug('CollectionService.getCollection');
+    this.logger.debug(`Calling ${this.BASE_URL}/${user}/collection/${name}`);
     return this.httpClient.get<Collection>(`${this.BASE_URL}/${user}/collection/${name}`, this.getHeaders());
   }
 }
