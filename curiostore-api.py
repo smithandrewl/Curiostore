@@ -9,7 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
 from model import engine, Base, Item, Collection, User, Session, get_user_by_name, is_user_logged_in, \
-    get_collection_by_name, get_item_by_name
+    get_collection_by_name, get_item_by_name, get_collection_items
 
 app = bottle.Bottle()
 
@@ -75,6 +75,19 @@ def login(db):
     else:
         bottle.response.status = 401
         return {'error': 'invalid username or password'}
+@app.get("/<user>/collection/<name>/items/all", auth="any values and types")
+def get_collection(user, name, auth):
+    user = get_user_by_name(session, user)
+
+    if not user:
+        return error_user_not_found()
+
+    if not is_user_logged_in(session, auth, user.display_name):
+        return error_request_denied()
+
+    items = get_collection_items(session, name)
+
+    return {'data': [ { "id": item.id, "name": item.name, "description": item.description} for item in items]}
 
 @app.get("/<user>/collection/<name>", auth="any values and types")
 def get_collection(user, name, auth):
@@ -91,7 +104,7 @@ def get_collection(user, name, auth):
     if not collection:
         return error_not_found("Collection")
 
-    return {"id": collection.id, "name": collection.name, "description": collection.description}
+    return { "id": collection.id, "name": collection.name, "description": collection.description }
 
 
 def error_not_found(entity):

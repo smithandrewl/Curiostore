@@ -85,6 +85,9 @@ def get_collection_by_name(session, name):
     """
     return session.query(Collection).filter(Collection.name == name).first()
 
+def get_collection_items(session, name):
+    return get_collection_by_name(session, name).items
+
 def is_user_logged_in(session, auth, user):
     """
     Returns whether or not the specified user is the currently logged in user.
