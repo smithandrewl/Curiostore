@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CollectionsService } from '../../shared/services/collections.service';
+import {Collection} from '../../shared/models/models';
 
 @Component({
   selector: 'app-collections',

@@ -15,6 +15,7 @@ import { CollectionsComponent } from './portal/collections/collections.component
 import { LookupComponent } from './portal/lookup/lookup.component';
 import { CollectionComponent } from './portal/collections/collection/collection.component';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { ItemComponent } from './portal/collections/collection/item/item.component';
 
 
 const appRoutes: Routes = [
@@ -42,7 +43,8 @@ const appRoutes: Routes = [
     AddComponent,
     CollectionsComponent,
     LookupComponent,
-    CollectionComponent
+    CollectionComponent,
+    ItemComponent
   ],
   imports: [
     LoggerModule.forRoot({level: NgxLoggerLevel.DEBUG}),

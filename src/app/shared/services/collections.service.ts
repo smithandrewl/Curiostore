@@ -3,6 +3,9 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { NGXLogger } from 'ngx-logger';
+import {Collection, Item} from '../models/models';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -77,5 +80,15 @@ export class CollectionsService {
     this.logger.debug('CollectionService.getCollection');
     this.logger.debug(`Calling ${this.BASE_URL}/${user}/collection/${name}`);
     return this.httpClient.get<Collection>(`${this.BASE_URL}/${user}/collection/${name}`, this.getHeaders());
+  }
+
+  getCollectionItems(user: string, name: string) {
+    return this.httpClient.get(`${this.BASE_URL}/${user}/collection/${name}/items/all`, this.getHeaders()).pipe(
+      map(
+        (result: { data: Array<any>}) => {
+          return result.data.map((item) => {
+            return new Item(item.id, item.name, item.description);
+          });
+        }));
   }
 }
