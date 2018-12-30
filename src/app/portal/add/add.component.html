@@ -1,35 +1,57 @@
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8">
+    <div class="card bg-success">
+      <div class="card-header">Add an Item</div>
+      <div class="card-body">
 
+        <div class="row">
+          <div class="col-sm">
+            <div class="row form-group">
+              <label for="selCollection" class="col-sm-2">
+                <b>Collection:</b>
 
-<div class="card bg-success">
-  <div class="card-header">Add an Item</div>
-  <div class="card-body">
+              </label>
 
-    <div class="input-group">
-      <label for="selCollection">
-        <b>Collection:</b>
-        <select class="form-control" id="selCollection">
-          <option value="Fossils">Fossils</option>
-        </select>
-      </label>
+              <select class="form-control form-control col-sm-9" id="selCollection">
+                <option value="Fossils">Fossils</option>
+              </select>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-sm">
+            <div class="row form-group">
+              <label for="txtName" class="col-sm-2">
+                <b>Name:</b>
+
+              </label>
+              <input type="text" id="txtName" class="form-control form-control col-sm-9"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <div class="row form-group">
+              <label for="txtDescription" class="col-sm-2">
+                <b>Description:</b>
+
+              </label>
+              <textarea rows="10" id="txtDescription" class="form-control form-control col-sm-9"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-footer">
+        <div class="btn btn-light">Save</div>&nbsp;
+        <div class="btn btn-light">Cancel</div>
+      </div>
+
     </div>
-    <div class="input-group">
-      <label for="txtName">
-        <b>Name:</b>
-      <input type="text" id="txtName" class="form-control"/>
-      </label>
-    </div>
-
-    <div class="input-group">
-      <label for="txtDescription">
-        <b>Description:</b>
-        <textarea rows="10" id="txtDescription" class="form-control" ></textarea>
-      </label>
-    </div>
-
   </div>
-  <div class="card-footer">
-    <div class="btn btn-light">Save</div>&nbsp;
-    <div class="btn btn-light">Cancel</div>
-  </div>
-
 </div>
