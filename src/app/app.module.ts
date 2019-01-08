@@ -16,6 +16,12 @@ import { LookupComponent } from './portal/lookup/lookup.component';
 import { CollectionComponent } from './portal/collections/collection/collection.component';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { ItemComponent } from './portal/collections/collection/item/item.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
 
 
 const appRoutes: Routes = [
@@ -54,7 +60,10 @@ const appRoutes: Routes = [
       appRoutes,
       {enableTracing: false}
     ),
-    BrowserModule
+    BrowserModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([AppEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]
