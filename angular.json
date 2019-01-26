@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "curiostore-ui"
+  "defaultProject": "curiostore-ui",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
