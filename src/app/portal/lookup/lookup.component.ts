@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-lookup',
+  selector:    'app-lookup',
   templateUrl: './lookup.component.html',
-  styleUrls: ['./lookup.component.css']
+  styleUrls:   ['./lookup.component.css']
 })
 export class LookupComponent implements OnInit {
 
