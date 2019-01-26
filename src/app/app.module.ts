@@ -18,6 +18,8 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { ItemComponent } from './portal/collections/collection/item/item.component';
 
 
+import { StoreModule } from '@ngrx/store';
+
 const appRoutes: Routes = [
   {
     path: '', component: LoginComponent
@@ -54,7 +56,8 @@ const appRoutes: Routes = [
       appRoutes,
       {enableTracing: false}
     ),
-    BrowserModule
+    BrowserModule,
+    StoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
