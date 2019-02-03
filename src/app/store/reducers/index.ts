@@ -5,16 +5,17 @@ import {
   createSelector,
   MetaReducer
 } from '@ngrx/store';
-
-import { environment } from '../../environments/environment';
-import {counterReducer} from './counter.reducer';
+import { environment } from '../../../environments/environment';
+import * as fromAuth from './auth.reducer';
 
 export interface State {
-  
+
+  auth: fromAuth.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
-  count: counterReducer
+
+  auth: fromAuth.reducer,
 };
 
 
