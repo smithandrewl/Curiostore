@@ -21,8 +21,6 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, metaReducers } from './store/reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { AppEffects } from './store/effects/app.effects';
-import { AuthEffects } from './store/effects/auth.effects';
 
 const appRoutes: Routes = [
   {
@@ -83,7 +81,7 @@ const appRoutes: Routes = [
     BrowserModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([AppEffects, AuthEffects]),
+    EffectsModule.forRoot([]),
   ],
   providers: [ ],
   bootstrap: [ AppComponent ]
