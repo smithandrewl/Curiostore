@@ -15,22 +15,12 @@ import { CollectionComponent  } from './portal/collections/collection/collection
 import { ItemComponent        } from './portal/collections/collection/item/item.component';
 
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
-<<<<<<< HEAD
-import { ItemComponent } from './portal/collections/collection/item/item.component';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
-=======
->>>>>>> 9f10ad6252163746694051f6350abf70b884b69e
 
 import { StoreModule } from '@ngrx/store';
+import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, metaReducers } from './store/reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
 import { AppEffects } from './store/effects/app.effects';
 import { AuthEffects } from './store/effects/auth.effects';
 
@@ -91,16 +81,9 @@ const appRoutes: Routes = [
       { enableTracing: false }
     ),
     BrowserModule,
-<<<<<<< HEAD
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([AppEffects])
-=======
-    StoreModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([AppEffects, AuthEffects]),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
->>>>>>> 9f10ad6252163746694051f6350abf70b884b69e
   ],
   providers: [ ],
   bootstrap: [ AppComponent ]
