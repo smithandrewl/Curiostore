@@ -21,6 +21,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, metaReducers } from './store/reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AddCollectionComponent } from './portal/collections/add-collection/add-collection.component';
 
 const appRoutes: Routes = [
   {
@@ -39,9 +40,14 @@ const appRoutes: Routes = [
         path:      'add',
         component: AddComponent
       },
+
+          {
+            path: 'newCollection',
+            component: AddCollectionComponent
+          },
       {
-        path:      'collections',
-        component: CollectionsComponent
+        path: 'collections',
+        component: CollectionsComponent,
       },
       {
         path:      'collections/:id',
@@ -64,7 +70,8 @@ const appRoutes: Routes = [
     CollectionsComponent,
     LookupComponent,
     CollectionComponent,
-    ItemComponent
+    ItemComponent,
+    AddCollectionComponent
   ],
   imports: [
     LoggerModule.forRoot(
