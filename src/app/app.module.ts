@@ -17,12 +17,10 @@ import { ItemComponent        } from './portal/collections/collection/item/item.
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 import { StoreModule } from '@ngrx/store';
+import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, metaReducers } from './store/reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { AppEffects } from './store/effects/app.effects';
-import { AuthEffects } from './store/effects/auth.effects';
 
 const appRoutes: Routes = [
   {
@@ -81,10 +79,10 @@ const appRoutes: Routes = [
       { enableTracing: false }
     ),
     BrowserModule,
-    StoreModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([AppEffects, AuthEffects]),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    EffectsModule.forRoot([]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([]),
   ],
   providers: [ ],
   bootstrap: [ AppComponent ]
