@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClientModule, HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import { map } from 'rxjs/operators';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map        } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class SecurityService {
 
   readonly BASE_URL = 'http://localhost/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * Logs in and sets the returned bearer token into memory.

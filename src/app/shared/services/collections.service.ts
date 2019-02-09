@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map        } from 'rxjs/operators';
+import { NGXLogger  } from 'ngx-logger';
+
+import { Collection, Item        } from '../models/models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { NGXLogger } from 'ngx-logger';
-import {Collection, Item} from '../models/models';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +19,12 @@ export class CollectionsService {
    */
   getHeaders() {
     this.logger.debug('CollectionService.getHeaders():');
+
     const token = localStorage.getItem('accesstoken');
 
     const headersBody =         {
-      'Content-Type' : 'application/json; charset=utf-8',
-      'Authorization' : `Bearer ${token}`
+      'Content-Type':  'application/json; charset=utf-8',
+      'Authorization': `Bearer ${token}`
     };
 
     this.logger.debug(`Headers = ${JSON.stringify(headersBody, null, 2)}`);
@@ -45,6 +45,7 @@ export class CollectionsService {
     this.logger.debug('CollectionService.getCollections():');
 
     this.logger.debug(`Calling ${this.logger}/Rue Bob/collection/`);
+
     return this.httpClient.get(`${ this.BASE_URL }/Rue Bob/collection/`, this.getHeaders()).pipe(
      map(data => {
 
