@@ -12,7 +12,7 @@ import * as fromRoot from './store/reducers';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private store: Store<fromRoot.ApplicationState>) {}
 
   ngOnInit() {
   }

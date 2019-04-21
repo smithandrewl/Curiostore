@@ -5,7 +5,7 @@ import {
 
 import { environment } from '../../../environments/environment';
 
-export interface State { }
+export interface ApplicationState { }
 
-export const reducers:     ActionReducerMap<State> = { };
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const reducers:     ActionReducerMap<ApplicationState> = { };
+export const metaReducers: MetaReducer<ApplicationState>[] = !environment.production ? [] : [];
