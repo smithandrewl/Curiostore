@@ -4,12 +4,13 @@ import {
   createEntityAdapter
 } from '@ngrx/entity';
 
-import { Collection } from './collection.model';
-
 import {
   CollectionActions,
   CollectionActionTypes
 } from './collection.actions';
+import {Collection} from '../../../shared/models/models';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {ApplicationState} from '../../reducers';
 
 export interface CollectionState extends EntityState<Collection> {
   // additional entities state properties
@@ -19,6 +20,7 @@ export const adapter: EntityAdapter<Collection> = createEntityAdapter<Collection
 
 export const initialState: CollectionState = adapter.getInitialState({
   // additional entity state properties
+
 });
 
 export function reducer(
@@ -78,3 +80,6 @@ export const {
   selectAll,
   selectTotal,
 } = adapter.getSelectors();
+
+export const getCollectionStore = createSelector((state: ApplicationState) => state.collections);
+

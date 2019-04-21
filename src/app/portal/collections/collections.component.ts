@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CollectionsService } from '../../shared/services/collections.service';
 import {Collection} from '../../shared/models/models';
+import {CollectionsFacadeService} from '../../shared/facades/collections-facade.service';
 
 @Component({
   selector: 'app-collections',
@@ -9,13 +10,10 @@ import {Collection} from '../../shared/models/models';
 })
 export class CollectionsComponent implements OnInit {
 
-  constructor(private collections: CollectionsService) { }
+  constructor(private collections: CollectionsFacadeService) { }
 
-  collectionList: Array<Collection>;
 
   ngOnInit() {
-    this.collections.getCollections().subscribe(collections => {
-      this.collectionList = collections;
-    });
+
   }
 }

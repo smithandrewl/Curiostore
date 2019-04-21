@@ -1,6 +1,6 @@
 import { Action     } from '@ngrx/store';
 import { Update     } from '@ngrx/entity';
-import { Collection } from './collection.model';
+import {Collection} from '../../../shared/models/models';
 
 export enum CollectionActionTypes {
   LoadCollections   = '[Collection] Load Collections',

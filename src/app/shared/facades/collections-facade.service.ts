@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import {adapter} from '../../store/entities/collection/collection.reducer';
 import {ApplicationState} from '../../store/reducers';
-import {Store} from '@ngrx/store';
+import {createSelector, Store} from '@ngrx/store';
 
 import * as fromCollectionsReducer from '../../store/entities/collection/collection.reducer';
-import {Collection} from '../../store/entities/collection/collection.model';
 import {Observable} from 'rxjs';
+import {LoadCollections} from '../../store/entities/collection/collection.actions';
+import {CollectionsService} from '../services/collections.service';
+import {Collection} from '../models/models';
 
 
 @Injectable({
@@ -17,7 +19,13 @@ export class CollectionsFacadeService {
 
 
 
-  constructor(private store: Store<ApplicationState>) {
-    this.selectAllCollection$ = store.select(fromCollectionsReducer.selectAll);
+  constructor(private store: Store<ApplicationState>, private collections: CollectionsService) {
+    this.selectAllCollection$ = this.store.select( createSelector((state) => state.collections, fromCollectionsReducer.selectAll));
+  }
+
+  public loadCollections() {
+    this.collections.getCollections().subscribe((collections) => {
+      this.store.dispatch(new LoadCollections({collections: collections}));
+    });
   }
 }

@@ -56,11 +56,12 @@ export class CollectionsService {
          collection => {
            const col = data[collection];
 
-           return {
-             id:          col.id,
-             name:        col.name,
-             description: col.description
-           };
+           return new Collection(
+             +col.id,
+             col.name,
+             col.description
+           );
+
         }
       );
 

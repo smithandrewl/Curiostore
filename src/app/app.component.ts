@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {Store } from '@ngrx/store';
 
 import * as fromRoot from './store/reducers';
+import {CollectionsFacadeService} from './shared/facades/collections-facade.service';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +13,9 @@ import * as fromRoot from './store/reducers';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  constructor(private store: Store<fromRoot.ApplicationState>) {}
+  constructor(private store: Store<fromRoot.ApplicationState>, private collections: CollectionsFacadeService) {}
 
   ngOnInit() {
+    this.collections.loadCollections();
   }
 }
