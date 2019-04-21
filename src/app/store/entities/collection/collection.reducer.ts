@@ -11,20 +11,20 @@ import {
   CollectionActionTypes
 } from './collection.actions';
 
-export interface State extends EntityState<Collection> {
+export interface CollectionState extends EntityState<Collection> {
   // additional entities state properties
 }
 
 export const adapter: EntityAdapter<Collection> = createEntityAdapter<Collection>();
 
-export const initialState: State = adapter.getInitialState({
+export const initialState: CollectionState = adapter.getInitialState({
   // additional entity state properties
 });
 
 export function reducer(
   state = initialState,
   action: CollectionActions
-): State {
+): CollectionState {
   switch (action.type) {
     case CollectionActionTypes.AddCollection: {
       return adapter.addOne(action.payload.collection, state);
