@@ -386,10 +386,21 @@ fossil_collection = Collection(
     name="Fossils",
     description="Some fossils"
 )
+
+butterfly_collection = Collection(
+  user = RueBob,
+  name = "Butterflies",
+  description="Some butterflies"
+)
+
+session.add(butterfly_collection)
 session.add(fossil_collection)
 
 fossil = Item(collection = fossil_collection, name="A fossil", description="A fossil for the collection")
 session.add(fossil)
+
+butterfly = Item(collection = butterfly_collection, name="A Butterfly", 
+description="A butterfly")
 
 session.commit()
 ###################### End Test Data Insertion #############################
