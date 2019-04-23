@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map        } from 'rxjs/operators';
 import { NGXLogger  } from 'ngx-logger';
 
-import { Collection, Item        } from '../models/models';
+import { Collection, CollectionItem        } from '../models/models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -89,7 +89,7 @@ export class CollectionsService {
       map(
         (result: { data: Array<any>}) => {
           return result.data.map((item) => {
-            return new Item(item.id, item.name, item.description);
+            return new CollectionItem(item.id, item.name, item.description);
           });
         }));
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CollectionsService } from '../../../shared/services/collections.service';
-import {Collection, Item} from '../../../shared/models/models';
+import {Collection, CollectionItem} from '../../../shared/models/models';
 
 @Component({
   selector: 'app-collection',
@@ -13,7 +13,7 @@ export class CollectionComponent implements OnInit {
   constructor(private route: ActivatedRoute, private collectionService: CollectionsService) { }
 
   collection: Collection = <Collection>{};
-  items: Array<Item>;
+  items: Array<CollectionItem>;
 
   ngOnInit() {
     const collectionName = this.route.snapshot.params['id'];

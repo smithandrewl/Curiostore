@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Item} from '../../../../shared/models/models';
+import {CollectionItem} from '../../../../shared/models/models';
 
 @Component({
   selector: 'app-item',
@@ -8,10 +8,9 @@ import {Item} from '../../../../shared/models/models';
 })
 export class ItemComponent implements OnInit {
 
-  @Input('item') item: Item
+  @Input('item') item: CollectionItem
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

@@ -4,12 +4,11 @@ import {
   createEntityAdapter
 } from '@ngrx/entity';
 
-import { CollectionItem } from './collection-item.model';
-
 import {
   CollectionItemActions,
   CollectionItemActionTypes
 } from './collection-item.actions';
+import {CollectionItem} from '../../../shared/models/models';
 
 export interface CollectionItemState extends EntityState<CollectionItem> {
   // additional entities state properties

@@ -6,7 +6,7 @@ export class Collection {
   ) { }
 }
 
-export class Item {
+export class CollectionItem {
   constructor(
     public id:          number,
     public name:        string,
