@@ -14,7 +14,7 @@
               </label>
 
               <select class="form-control form-control col-sm-9" id="selCollection">
-                <option value="Fossils">Fossils</option>
+                <option [value]="collection.name" *ngFor="let collection of collections.selectAllCollection$|async" >{{collection.name}}</option>
               </select>
 
             </div>

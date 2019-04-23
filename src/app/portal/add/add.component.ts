@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {CollectionsFacadeService} from '../../shared/facades/collections-facade.service';
 
 @Component({
   selector: 'app-add',
@@ -9,7 +10,7 @@ import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common'
 })
 export class AddComponent implements OnInit {
 
-  constructor(private _location: Location) { }
+  constructor(private _location: Location, public collections: CollectionsFacadeService) { }
 
   public cancel() {
     this._location.back();
