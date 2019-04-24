@@ -1,12 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
-import {CollectionsFacadeService} from '../../shared/facades/collections-facade.service';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+
+import {
+  Location,
+  LocationStrategy,
+  PathLocationStrategy
+} from '@angular/common';
+
+import {
+  CollectionsFacadeService
+} from '../../shared/facades/collections-facade.service';
 
 @Component({
-  selector: 'app-add',
+  selector:    'app-add',
   templateUrl: './add.component.html',
-  styleUrls: ['./add.component.css'],
-  providers: [Location, {provide: LocationStrategy,  useClass: PathLocationStrategy}]
+  styleUrls:   ['./add.component.css'],
+  providers:   [ Location, { provide: LocationStrategy,  useClass: PathLocationStrategy } ]
 })
 export class AddComponent implements OnInit {
 
@@ -16,6 +27,5 @@ export class AddComponent implements OnInit {
     this._location.back();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 }
