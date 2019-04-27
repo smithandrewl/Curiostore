@@ -93,4 +93,15 @@ export class CollectionsService {
           });
         }));
   }
+
+  createCollection(user: string, name, description: string) {
+    const body = {
+      name: name,
+      description: description
+    };
+
+    this.logger.debug('CollectionService.newCollection');
+    this.logger.debug(`Calling ${this.BASE_URL}/${user}/collection`);
+    return this.httpClient.post(`${this.BASE_URL}/${user}/collection`, body, this.getHeaders());
+  }
 }
