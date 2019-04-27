@@ -22,6 +22,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, metaReducers } from './store/reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AddCollectionComponent } from './portal/collections/add-collection/add-collection.component';
+import { ProfileSettingsComponent } from './portal/profile-settings/profile-settings.component';
 
 const appRoutes: Routes = [
   {
@@ -71,7 +72,8 @@ const appRoutes: Routes = [
     LookupComponent,
     CollectionComponent,
     ItemComponent,
-    AddCollectionComponent
+    AddCollectionComponent,
+    ProfileSettingsComponent
   ],
   imports: [
     LoggerModule.forRoot(
