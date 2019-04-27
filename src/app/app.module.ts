@@ -38,6 +38,10 @@ const appRoutes: Routes = [
         pathMatch:  'full'
       },
       {
+        path: 'profile',
+        component: ProfileSettingsComponent
+      },
+      {
         path:      'add',
         component: AddComponent
       },

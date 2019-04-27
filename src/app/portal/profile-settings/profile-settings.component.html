@@ -1,3 +1,42 @@
-<p>
-  profile-settings works!
-</p>
+<div class="row">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-6">
+    <div class="card bg-success">
+      <div class="card-header">Ful L. Name</div>
+      <div class="card-body">
+
+
+        <div class="row">
+
+          <div class="col-sm">
+            <div class="row form-group">
+              <label for="txtName" class="col-sm-2">
+                <b>Name</b>
+
+              </label>
+              <input type="text" id="txtName" class="form-control form-control col-sm-9" value="Ful L. Name"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <div class="row form-group">
+              <label for="txtDescription" class="col-sm-2">
+                <b>Bio</b>
+
+              </label>
+              <textarea rows="5" id="txtDescription" class="form-control form-control col-sm-9">Some content</textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-footer">
+        <div class="btn btn-light">Save</div>&nbsp;
+        <div class="btn btn-light" (click)="cancel()">Cancel</div>
+      </div>
+
+    </div>
+  </div>
+</div>
