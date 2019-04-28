@@ -25,7 +25,7 @@ import { AddCollectionComponent } from './portal/collections/add-collection/add-
 import { ProfileSettingsComponent } from './portal/profile-settings/profile-settings.component';
 
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 const appRoutes: Routes = [

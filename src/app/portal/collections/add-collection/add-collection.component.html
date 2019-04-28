@@ -8,12 +8,20 @@
       <div class="card-body">
         <div class="row">
           <div class="col-sm">
+            <div *ngIf="nameControl.invalid && (nameControl.dirty || nameControl.touched)" class="alert alert-danger">
+              <div *ngIf="nameControl.errors">Name is required.</div>
+            </div>
+            <div *ngIf="descriptionControl.invalid && (descriptionControl.dirty || descriptionControl.touched)" class="alert alert-danger">
+              <div *ngIf="descriptionControl.errors">Description is required.</div>
+            </div>
             <div class="row form-group">
+
+
               <label for="txtName" class="col-sm-2">
                 <b>Name</b>
 
               </label>
-              <input type="text" id="txtName" class="form-control form-control col-sm-9" formControlName="name"/>
+              <input type="text" id="txtName" class="form-control form-control col-sm-9" formControlName="name" required/>
             </div>
           </div>
         </div>
@@ -25,7 +33,7 @@
                 <b>Description</b>
 
               </label>
-              <textarea rows="10" id="txtDescription" class="form-control form-control col-sm-9" formControlName="description"></textarea>
+              <textarea rows="10" id="txtDescription" class="form-control form-control col-sm-9" formControlName="description" required></textarea>
             </div>
           </div>
         </div>
