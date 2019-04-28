@@ -102,6 +102,6 @@ export class CollectionsService {
 
     this.logger.debug('CollectionService.newCollection');
     this.logger.debug(`Calling ${this.BASE_URL}/${user}/collection`);
-    return this.httpClient.post(`${this.BASE_URL}/${user}/collection`, body, this.getHeaders());
+    return this.httpClient.post(`${this.BASE_URL}/${user}/collection/`, body, this.getHeaders());
   }
 }
