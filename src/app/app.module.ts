@@ -24,6 +24,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AddCollectionComponent } from './portal/collections/add-collection/add-collection.component';
 import { ProfileSettingsComponent } from './portal/profile-settings/profile-settings.component';
 
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+
 const appRoutes: Routes = [
   {
     path: '', component: LoginComponent
@@ -86,6 +90,7 @@ const appRoutes: Routes = [
       }
     ),
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(
       appRoutes,

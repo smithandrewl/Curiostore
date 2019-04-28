@@ -5,6 +5,7 @@ import {ApplicationState} from '../../../store/reducers';
 import {Store} from '@ngrx/store';
 import {AddCollection} from '../../../store/entities/collection/collection.actions';
 import {Collection} from '../../../shared/models/models';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-add-collection',
@@ -13,6 +14,11 @@ import {Collection} from '../../../shared/models/models';
   providers: [Location, {provide: LocationStrategy,  useClass: PathLocationStrategy}]
 })
 export class AddCollectionComponent implements OnInit {
+
+  addCollectionForm = new FormGroup({
+    name: new FormControl(''),
+    description: new FormControl('')
+  });
 
   constructor(private _location: Location, private collections: CollectionsService, private store: Store<ApplicationState>) { }
 
@@ -23,9 +29,14 @@ export class AddCollectionComponent implements OnInit {
   }
 
   save() {
-    this.collections.createCollection('Rue Bob', 'A new Collection', 'A new collection').subscribe(
+
+    const name = this.addCollectionForm.get('name').value;
+    const description = this.addCollectionForm.get('description').value;
+
+
+    this.collections.createCollection('Rue Bob', name, description).subscribe(
       () => {
-        this.store.dispatch(new AddCollection({collection: new Collection(Math.random(), 'A new Collection', 'A new collection')}));
+        this.store.dispatch(new AddCollection({collection: new Collection(Math.random(),name, description)}));
       }
     );
   }
