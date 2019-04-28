@@ -41,9 +41,6 @@ export class AddCollectionComponent implements OnInit {
   }
 
   save() {
-
-
-
     if(this.addCollectionForm.valid) {
       const name = this.addCollectionForm.get('name').value;
       const description = this.addCollectionForm.get('description').value;
