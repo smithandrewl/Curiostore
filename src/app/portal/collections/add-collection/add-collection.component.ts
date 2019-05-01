@@ -32,8 +32,6 @@ export class AddCollectionComponent implements OnInit {
   nameControl:        FormControl;
   descriptionControl: FormControl;
 
-
-
   constructor(
     private _location:   Location,
     private collections: CollectionsService,
