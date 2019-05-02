@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { SecurityService } from '../shared/services/security.service';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 
-import { take, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-
+import { SecurityService } from '../shared/services/security.service';
 
 @Component({
-  selector: 'app-login',
+  selector:    'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls:   ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   username;
@@ -17,8 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private security: SecurityService, private router: Router) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   login() {
     this.security.login(this.username, this.password).subscribe(
@@ -29,5 +29,4 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
 }

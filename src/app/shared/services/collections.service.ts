@@ -3,7 +3,11 @@ import { Observable } from 'rxjs';
 import { map        } from 'rxjs/operators';
 import { NGXLogger  } from 'ngx-logger';
 
-import { Collection, CollectionItem        } from '../models/models';
+import {
+  Collection,
+  CollectionItem
+} from '../models/models';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -12,7 +16,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class CollectionsService {
 
   readonly BASE_URL = 'http://localhost/api';
-  constructor(private httpClient: HttpClient, private logger: NGXLogger) { }
+
+  constructor(
+    private httpClient: HttpClient,
+    private logger:     NGXLogger
+  ) { }
 
   /**
    * Returns http headers containing a content-type and bearer token for making calls.
@@ -27,7 +35,9 @@ export class CollectionsService {
       'Authorization': `Bearer ${token}`
     };
 
-    this.logger.debug(`Headers = ${JSON.stringify(headersBody, null, 2)}`);
+    this.logger.debug(
+      `Headers = ${JSON.stringify(headersBody, null, 2)}`
+    );
 
     const headers = {
       headers: new HttpHeaders(

@@ -1,32 +1,37 @@
-import { BrowserModule    } from '@angular/platform-browser';
-import { NgModule         } from '@angular/core';
-import { FormsModule      } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-
-import { AppComponent         } from './app.component';
+import { BrowserModule        } from '@angular/platform-browser';
+import { NgModule             } from '@angular/core';
+import { FormsModule          } from '@angular/forms';
+import { HttpClientModule     } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent       } from './login/login.component';
+import { ReactiveFormsModule  } from '@angular/forms';
 
-import { PortalComponent      } from './portal/portal.component';
-import { AddComponent         } from './portal/add/add.component';
-import { CollectionsComponent } from './portal/collections/collections.component';
-import { LookupComponent      } from './portal/lookup/lookup.component';
-import { CollectionComponent  } from './portal/collections/collection/collection.component';
-import { ItemComponent        } from './portal/collections/collection/item/item.component';
+import { AppComponent   } from './app.component';
+import { LoginComponent } from './login/login.component';
 
-import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
-
-import { StoreModule } from '@ngrx/store';
-import { environment } from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects';
-import { reducers, metaReducers } from './store/reducers';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { AddCollectionComponent } from './portal/collections/add-collection/add-collection.component';
+import { PortalComponent          } from './portal/portal.component';
+import { AddComponent             } from './portal/add/add.component';
+import { CollectionsComponent     } from './portal/collections/collections.component';
+import { LookupComponent          } from './portal/lookup/lookup.component';
+import { CollectionComponent      } from './portal/collections/collection/collection.component';
+import { ItemComponent            } from './portal/collections/collection/item/item.component';
+import { AddCollectionComponent   } from './portal/collections/add-collection/add-collection.component';
 import { ProfileSettingsComponent } from './portal/profile-settings/profile-settings.component';
 
+import {
+  LoggerModule,
+  NgxLoggerLevel
+} from 'ngx-logger';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule         } from '@ngrx/store';
+import { EffectsModule       } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { environment } from '../environments/environment';
+
+import {
+  reducers,
+  metaReducers
+} from './store/reducers';
 
 const appRoutes: Routes = [
   {

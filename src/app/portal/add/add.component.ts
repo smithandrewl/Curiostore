@@ -17,7 +17,13 @@ import {
   selector:    'app-add',
   templateUrl: './add.component.html',
   styleUrls:   ['./add.component.css'],
-  providers:   [ Location, { provide: LocationStrategy,  useClass: PathLocationStrategy } ]
+  providers:   [
+    Location,
+    {
+      provide:  LocationStrategy,
+      useClass: PathLocationStrategy
+    }
+  ]
 })
 export class AddComponent implements OnInit {
 
