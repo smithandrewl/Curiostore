@@ -32,6 +32,7 @@ import {
   reducers,
   metaReducers
 } from './store/reducers';
+import { ComponentsDemoComponent } from './portal/components-demo/components-demo.component';
 
 const appRoutes: Routes = [
   {
@@ -70,6 +71,10 @@ const appRoutes: Routes = [
       {
         path:      'lookup',
         component: LookupComponent
+      },
+      {
+        path: 'components',
+        component: ComponentsDemoComponent
       }
     ]
   }
@@ -86,7 +91,8 @@ const appRoutes: Routes = [
     CollectionComponent,
     ItemComponent,
     AddCollectionComponent,
-    ProfileSettingsComponent
+    ProfileSettingsComponent,
+    ComponentsDemoComponent
   ],
   imports: [
     LoggerModule.forRoot(
