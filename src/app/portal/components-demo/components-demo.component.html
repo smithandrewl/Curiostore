@@ -15,11 +15,25 @@
     <div class="card-header">
         Page Alert
     </div>
+
     <div class="card-body">
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
         <h4>Single Message Alert</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
         <app-page-alert [message]="message.asObservable()"></app-page-alert>
+            </div>
+        </div>
         <br/>
 
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
         <div class="btn btn-group">
         <div class="btn btn-primary" (click)="successAlert()">Success Alert</div>
         <div class="btn btn-primary" (click)="errorAlert()">Error Alert</div>
@@ -27,20 +41,38 @@
         <div class="btn btn-primary" (click)="infoAlert()">Info Alert</div>
             <div class="btn btn-primary" (click) ="resetAlert()">Reset Alert</div>
         </div>
+            </div>
+        </div>
 
         <br/>
         <br/>
 
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
         <h4>Multiple Message Alert</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
         <app-page-alert [message]="messages.asObservable()"></app-page-alert>
+            </div>
+        </div>
         <br/>
 
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
         <div class="btn-group">
             <div class="btn btn-primary" (click)="successAlerts()">Success Alerts</div>
             <div class="btn btn-primary" (click)="errorAlerts()">Error Alerts</div>
             <div class="btn btn-primary" (click)="warningAlerts()">Warning Alerts</div>
             <div class="btn btn-primary" (click)="infoAlerts()">Info Alerts</div>
             <div class="btn btn-primary" (click) ="resetAlerts()">Reset Alert</div>
+        </div>
+            </div>
+           <div class="col-sm-3"></div>
         </div>
     </div>
 </div>
