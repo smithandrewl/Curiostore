@@ -11,6 +11,8 @@ export class ComponentsDemoComponent implements OnInit {
   active: BehaviorSubject<boolean> = new BehaviorSubject(false);
   message: BehaviorSubject<PageAlertMessage | null> = new BehaviorSubject(null);
 
+  messages: BehaviorSubject<PageAlertMessage | null> =new BehaviorSubject(null);
+
   constructor() {
   }
 
@@ -63,7 +65,7 @@ export class ComponentsDemoComponent implements OnInit {
 
 
   successAlerts() {
-    this.message.next(
+    this.messages.next(
       {
         message: ['Success 1', 'Success 2', 'Success 3'],
         title: 'Success Title!',
@@ -73,7 +75,7 @@ export class ComponentsDemoComponent implements OnInit {
   }
 
   warningAlerts() {
-    this.message.next(
+    this.messages.next(
       {
         message: ['Warning 1', 'Warning 2', 'Warning 3'],
         title: 'Warning Title!',
@@ -83,7 +85,7 @@ export class ComponentsDemoComponent implements OnInit {
   }
 
   errorAlerts() {
-    this.message.next(
+    this.messages.next(
       {
         message: ['Error 1', 'Error 2', 'Error 3'],
         title: 'Error Title!',
@@ -93,7 +95,7 @@ export class ComponentsDemoComponent implements OnInit {
   }
 
   infoAlerts() {
-    this.message.next(
+    this.messages.next(
       {
         message: ['Info 1', 'Info 2', 'Info 3'],
         title: 'Info Title!',
@@ -104,5 +106,9 @@ export class ComponentsDemoComponent implements OnInit {
 
   resetAlert() {
     this.message.next(null);
+  }
+
+  resetAlerts(){
+    this.messages.next(null);
   }
 }

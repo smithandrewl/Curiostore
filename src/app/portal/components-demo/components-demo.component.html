@@ -16,6 +16,7 @@
         Page Alert
     </div>
     <div class="card-body">
+        <h4>Single Message Alert</h4>
         <app-page-alert [message]="message.asObservable()"></app-page-alert>
         <br/>
 
@@ -28,13 +29,18 @@
         </div>
 
         <br/>
+        <br/>
+
+        <h4>Multiple Message Alert</h4>
+        <app-page-alert [message]="messages.asObservable()"></app-page-alert>
+        <br/>
 
         <div class="btn-group">
             <div class="btn btn-primary" (click)="successAlerts()">Success Alerts</div>
             <div class="btn btn-primary" (click)="errorAlerts()">Error Alerts</div>
             <div class="btn btn-primary" (click)="warningAlerts()">Warning Alerts</div>
             <div class="btn btn-primary" (click)="infoAlerts()">Info Alerts</div>
-            <div class="btn btn-primary" (click) ="resetAlert()">Reset Alert</div>
+            <div class="btn btn-primary" (click) ="resetAlerts()">Reset Alert</div>
         </div>
     </div>
 </div>
