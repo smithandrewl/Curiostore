@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule  } from '@angular/forms';
 
 import { AppComponent   } from './app.component';
+import {SpinnerComponent} from './components/spinner/spinner.component';
 import { LoginComponent } from './login/login.component';
 
 import { PortalComponent          } from './portal/portal.component';
@@ -92,7 +93,8 @@ const appRoutes: Routes = [
     ItemComponent,
     AddCollectionComponent,
     ProfileSettingsComponent,
-    ComponentsDemoComponent
+    ComponentsDemoComponent,
+    SpinnerComponent
   ],
   imports: [
     LoggerModule.forRoot(

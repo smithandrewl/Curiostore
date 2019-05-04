@@ -6,6 +6,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
   declarations: [SpinnerComponent],
   imports: [
     CommonModule
+  ],
+  exports:  [
+    SpinnerComponent
   ]
 })
 export class ComponentsModule { }
