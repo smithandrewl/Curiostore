@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule  } from '@angular/forms';
 
 import { AppComponent   } from './app.component';
+import {PageAlertComponent} from './components/page-alert/page-alert.component';
 import {SpinnerComponent} from './components/spinner/spinner.component';
 import { LoginComponent } from './login/login.component';
 
@@ -94,7 +95,8 @@ const appRoutes: Routes = [
     AddCollectionComponent,
     ProfileSettingsComponent,
     ComponentsDemoComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    PageAlertComponent
   ],
   imports: [
     LoggerModule.forRoot(

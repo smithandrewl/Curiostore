@@ -9,3 +9,32 @@
 
     <div class="btn btn-success" (click)="toggleSpinner()">Toggle</div>
 </div>
+
+<br/>
+<div class="card bg-dark">
+    <div class="card-header">
+        Page Alert
+    </div>
+    <div class="card-body">
+        <app-page-alert [message]="message.asObservable()"></app-page-alert>
+        <br/>
+
+        <div class="btn btn-group">
+        <div class="btn btn-primary" (click)="successAlert()">Success Alert</div>
+        <div class="btn btn-primary" (click)="errorAlert()">Error Alert</div>
+        <div class="btn btn-primary" (click)="warningAlert()">Warning Alert</div>
+        <div class="btn btn-primary" (click)="infoAlert()">Info Alert</div>
+            <div class="btn btn-primary" (click) ="resetAlert()">Reset Alert</div>
+        </div>
+
+        <br/>
+
+        <div class="btn-group">
+            <div class="btn btn-primary" (click)="successAlerts()">Success Alerts</div>
+            <div class="btn btn-primary" (click)="errorAlerts()">Error Alerts</div>
+            <div class="btn btn-primary" (click)="warningAlerts()">Warning Alerts</div>
+            <div class="btn btn-primary" (click)="infoAlerts()">Info Alerts</div>
+            <div class="btn btn-primary" (click) ="resetAlert()">Reset Alert</div>
+        </div>
+    </div>
+</div>
