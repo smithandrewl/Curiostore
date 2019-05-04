@@ -4,6 +4,8 @@
         Spinner
     </div>
     <div class="card-body">
-        <app-spinner></app-spinner>
+        <app-spinner [active]="active.asObservable()"></app-spinner>
     </div>
+
+    <div class="btn btn-success" (click)="toggleSpinner()">Toggle</div>
 </div>
