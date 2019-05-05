@@ -29,6 +29,7 @@ import { EffectsModule       } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../environments/environment';
+import {AuthenticationEffects} from './store/effects/authentication.effects';
 
 import {
   reducers,
@@ -113,9 +114,8 @@ const appRoutes: Routes = [
     ),
     BrowserModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AuthenticationEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([]),
   ],
   providers: [ ],
   bootstrap: [ AppComponent ]

@@ -30,9 +30,17 @@ export function reducer(state = initialState, action: AuthenticationActions): Au
     case AuthenticationActionTypes.AuthenticationAttempt:
       return state;
     case AuthenticationActionTypes.AuthenticationSucceeded:
-      return state;
+      return {
+        ...state,
+        error: AuthenticationError.NoError,
+        result: AuthenticationResult.Success
+      };
     case AuthenticationActionTypes.AuthenticationFailed:
-      return state;
+      return {
+        ...state,
+        error: AuthenticationError.InvalidCredentials,
+        result: AuthenticationResult.Failure
+      };
     default:
       return state;
   }

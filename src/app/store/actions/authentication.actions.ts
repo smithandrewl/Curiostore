@@ -7,7 +7,7 @@ export enum AuthenticationActionTypes {
   AuthenticationSucceeded ='[Authentication] Succeeded'
 }
 
-export class Authenticate implements Action {
+export class AuthenticationAttempt implements Action {
   readonly  type = AuthenticationActionTypes.AuthenticationAttempt;
 }
 
@@ -19,6 +19,6 @@ export class AuthenticationSucceeded implements Action {
   readonly type = AuthenticationActionTypes.AuthenticationSucceeded;
 }
 export type AuthenticationActions =
-    Authenticate
+    AuthenticationAttempt
   | AuthenticationFailed
   | AuthenticationSucceeded;

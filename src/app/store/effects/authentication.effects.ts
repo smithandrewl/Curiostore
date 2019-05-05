@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { concatMap  } from 'rxjs/operators';
-import { EMPTY      } from 'rxjs';
+import {concatMap, switchMap} from 'rxjs/operators';
+import {EMPTY, of} from 'rxjs';
 
 import {
   Actions,
@@ -10,7 +10,7 @@ import {
 
 import {
   AuthenticationActionTypes,
-  AuthenticationActions
+  AuthenticationActions, AuthenticationFailed
 } from '../actions/authentication.actions';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class AuthenticationEffects {
   authenticationAttempt$ = this.actions$.pipe(
     ofType(AuthenticationActionTypes.AuthenticationAttempt),
     /** An EMPTY observable only emits completion. Replace with your own observable API request */
-    concatMap(() => EMPTY)
+    switchMap(() => of(new AuthenticationFailed()))
   );
 
 
