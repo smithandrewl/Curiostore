@@ -11,8 +11,8 @@ export class AuthenticationEffects {
 
 
   @Effect()
-  loadAuthentications$ = this.actions$.pipe(
-    ofType(AuthenticationActionTypes.LoadAuthentications),
+  authenticationAttempt$ = this.actions$.pipe(
+    ofType(AuthenticationActionTypes.AuthenticationAttempt),
     /** An EMPTY observable only emits completion. Replace with your own observable API request */
     concatMap(() => EMPTY)
   );

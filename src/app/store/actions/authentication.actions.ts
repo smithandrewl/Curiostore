@@ -1,14 +1,22 @@
+
 import { Action } from '@ngrx/store';
 
 export enum AuthenticationActionTypes {
-  LoadAuthentications = '[Authentication] Load Authentications',
-  
+  AuthenticationAttempt = '[Authentication] Authenticate',
+  AuthenticationFailed = '[Authentication] Failed',
+  AuthenticationSucceeded ='[Authentication] Succeeded'
   
 }
 
-export class LoadAuthentications implements Action {
-  readonly type = AuthenticationActionTypes.LoadAuthentications;
+export class Authenticate implements Action {
+  readonly  type = AuthenticationActionTypes.AuthenticationAttempt;
 }
 
+export class AuthenticationFailed implements Action {
+  readonly type = AuthenticationActionTypes.AuthenticationFailed;
+}
 
-export type AuthenticationActions = LoadAuthentications;
+export class AuthenticationSucceeded implements Action {
+  readonly type = AuthenticationActionTypes.AuthenticationSucceeded;
+}
+export type AuthenticationActions = Authenticate | AuthenticationFailed | AuthenticationSucceeded;
