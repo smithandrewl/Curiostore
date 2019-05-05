@@ -3,13 +3,13 @@ import {
   AuthenticationActionTypes
 } from '../actions/authentication.actions';
 
-enum AuthenticationResult {
+export enum AuthenticationResult {
   NoAttempt = 'NoAttempt',
   Success = 'Success',
   Failure = 'Failure'
 }
 
-enum AuthenticationError {
+export enum AuthenticationError {
   NoError = 'NoError',
   InvalidCredentials = 'InvalidCredentials'
 }
