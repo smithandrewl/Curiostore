@@ -3,9 +3,26 @@ import {
   AuthenticationActionTypes
 } from '../actions/authentication.actions';
 
-export interface AuthenticationState { }
+enum AuthenticationResult {
+  NoAttempt = 'NoAttempt',
+  Success = 'Success',
+  Failure = 'Failure'
+}
 
-export const initialState: AuthenticationState = { };
+enum AuthenticationError {
+  NoError = 'NoError',
+  InvalidCredentials = 'InvalidCredentials'
+}
+
+export interface AuthenticationState {
+  result: AuthenticationResult;
+  error: AuthenticationError;
+}
+
+export const initialState: AuthenticationState = {
+  result: AuthenticationResult.NoAttempt,
+  error: AuthenticationError.NoError
+};
 
 export function reducer(state = initialState, action: AuthenticationActions): AuthenticationState {
   switch (action.type) {
