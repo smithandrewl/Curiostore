@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {concatMap, switchMap} from 'rxjs/operators';
+import {catchError, concatMap, switchMap} from 'rxjs/operators';
 import {EMPTY, of} from 'rxjs';
 
 import {
@@ -7,10 +7,11 @@ import {
   Effect,
   ofType
 } from '@ngrx/effects';
+import {SecurityService} from '../../shared/services/security.service';
 
 import {
   AuthenticationActionTypes,
-  AuthenticationActions, AuthenticationFailed
+  AuthenticationActions, AuthenticationFailed, AuthenticationSucceeded
 } from '../actions/authentication.actions';
 
 @Injectable()
@@ -20,11 +21,16 @@ export class AuthenticationEffects {
   @Effect()
   authenticationAttempt$ = this.actions$.pipe(
     ofType(AuthenticationActionTypes.AuthenticationAttempt),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
-    switchMap(() => of(new AuthenticationFailed()))
+
+    switchMap((value, index) => {
+      return this.security.login(value.payload.username, value.payload.password).pipe(
+        catchError((err, caught) => of(new AuthenticationFailed())),
+        switchMap(data => of(new AuthenticationSucceeded()))
+      );
+    })
   );
 
 
-  constructor(private actions$: Actions<AuthenticationActions>) { }
+  constructor(private actions$: Actions<AuthenticationActions>, private security: SecurityService) { }
 
 }

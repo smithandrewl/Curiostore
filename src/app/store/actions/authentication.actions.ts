@@ -8,6 +8,11 @@ export enum AuthenticationActionTypes {
 }
 
 export class AuthenticationAttempt implements Action {
+
+  constructor(public payload: { username: string; password: string }) {
+
+  }
+
   readonly  type = AuthenticationActionTypes.AuthenticationAttempt;
 }
 

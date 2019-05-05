@@ -1,18 +1,19 @@
 import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {catchError, switchMap} from 'rxjs/operators';
 import {PageAlertMessage, PageAlertType} from '../../components/page-alert/page-alert.component';
 import {AuthenticationAttempt} from '../../store/actions/authentication.actions';
 import {ApplicationState} from '../../store/reducers';
 import {AuthenticationError, AuthenticationResult, AuthenticationState} from '../../store/reducers/authentication.reducer';
+import {SecurityService} from '../services/security.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SecurityFacadeService {
 
-  constructor(private store: Store<ApplicationState>) { }
+  constructor(private store: Store<ApplicationState>, private security: SecurityService) { }
 
   loginAlertMessages: Observable<PageAlertMessage | null> = this.store.select((state: ApplicationState) => state.authentication).pipe(
     switchMap((authState: AuthenticationState, index) => {
@@ -47,6 +48,6 @@ export class SecurityFacadeService {
 
 
   login(email: string, password: string) {
-    this.store.dispatch(new AuthenticationAttempt());
+    this.store.dispatch(new AuthenticationAttempt({username: email, password: password}));
   }
 }
