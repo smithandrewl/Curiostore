@@ -25,7 +25,13 @@ export class AuthenticationEffects {
     switchMap((value, index) => {
       return this.security.login(value.payload.username, value.payload.password).pipe(
         catchError((err, caught) => of(new AuthenticationFailed())),
-        switchMap(data => of(new AuthenticationSucceeded()))
+        switchMap((data: any) => {
+          if(data.type === AuthenticationActionTypes.AuthenticationFailed) {
+            return of(data);
+          }
+          console.log(JSON.stringify(data, null, 2));
+          return of(new AuthenticationSucceeded());
+        })
       );
     })
   );
