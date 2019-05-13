@@ -2,18 +2,14 @@
   <div class="col-sm-2"></div>
   <div class="col-sm-8">
 
+
     <form [formGroup]="addCollectionForm">
     <div class="card bg-success">
       <div class="card-header">Add a collection</div>
       <div class="card-body">
         <div class="row">
           <div class="col-sm">
-            <div *ngIf="nameControl.invalid && (nameControl.dirty || nameControl.touched)" class="alert alert-danger">
-              <div *ngIf="nameControl.errors">Name is required.</div>
-            </div>
-            <div *ngIf="descriptionControl.invalid && (descriptionControl.dirty || descriptionControl.touched)" class="alert alert-danger">
-              <div *ngIf="descriptionControl.errors">Description is required.</div>
-            </div>
+              <app-page-alert [message]="alerts"></app-page-alert> <br/>
             <div class="row form-group">
 
 
@@ -41,7 +37,6 @@
       <div class="card-footer">
         <div class="btn btn-light" (click)="save()">Save</div>&nbsp;
       </div>
-
     </div>
     </form>
 

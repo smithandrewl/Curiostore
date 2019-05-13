@@ -1,25 +1,16 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
 
-import {
-  Location,
-  LocationStrategy,
-  PathLocationStrategy
-} from '@angular/common';
+import {FormControl, FormGroup} from '@angular/forms';
 
-import { ApplicationState   } from '../../../store/reducers';
-import { AddCollection      } from '../../../store/entities/collection/collection.actions';
-import { Collection         } from '../../../shared/models/models';
-import { CollectionsService } from '../../../shared/services/collections.service';
+import {Store} from '@ngrx/store';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {PageAlertMessage, PageAlertType} from '../../../components/page-alert/page-alert.component';
+import {Collection} from '../../../shared/models/models';
+import {CollectionsService} from '../../../shared/services/collections.service';
+import {AddCollection} from '../../../store/entities/collection/collection.actions';
 
-import { Store              } from '@ngrx/store';
-
-import {
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import {ApplicationState} from '../../../store/reducers';
 
 @Component({
   selector:    'app-add-collection',
@@ -39,13 +30,21 @@ export class AddCollectionComponent implements OnInit {
   nameControl:        FormControl;
   descriptionControl: FormControl;
 
+  alerts: BehaviorSubject<PageAlertMessage>;
+  alert$: Observable<PageAlertMessage>;
+
   constructor(
     private _location:   Location,
     private collections: CollectionsService,
     private store:       Store<ApplicationState>
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
+    this.alerts = new BehaviorSubject(null);
+    this.alert$ = this.alerts.asObservable();
+
     this.nameControl        = new FormControl('');
     this.descriptionControl = new FormControl('');
 
@@ -61,6 +60,7 @@ export class AddCollectionComponent implements OnInit {
 
   save() {
     if(this.addCollectionForm.valid) {
+      this.alerts.next(null);
       const name        = this.addCollectionForm.get('name').value;
       const description = this.addCollectionForm.get('description').value;
 
@@ -80,8 +80,25 @@ export class AddCollectionComponent implements OnInit {
         }
       );
     } else {
-      this.nameControl.markAsTouched({onlySelf: true});
-      this.descriptionControl.markAsTouched({onlySelf: true});
+
+
+      let messages = [];
+
+
+      if(this.descriptionControl.errors) {
+        messages.push('Description is required');
+      }
+
+      if(this.nameControl.errors) {
+        messages.push('Name is required');
+      }
+
+      this.alerts.next(<PageAlertMessage>{
+        type: PageAlertType.Error,
+       title: 'Error',
+       message: messages
+      });
+
     }
   }
 }
