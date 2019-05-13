@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Router} from '@angular/router';
 import {catchError, concatMap, switchMap} from 'rxjs/operators';
 import {EMPTY, of} from 'rxjs';
 
@@ -30,6 +31,9 @@ export class AuthenticationEffects {
             return of(data);
           }
           console.log(JSON.stringify(data, null, 2));
+
+          this.router.navigateByUrl('/portal');
+
           return of(new AuthenticationSucceeded());
         })
       );
@@ -37,6 +41,8 @@ export class AuthenticationEffects {
   );
 
 
-  constructor(private actions$: Actions<AuthenticationActions>, private security: SecurityService) { }
+
+
+  constructor(private actions$: Actions<AuthenticationActions>, private security: SecurityService, private router: Router) { }
 
 }

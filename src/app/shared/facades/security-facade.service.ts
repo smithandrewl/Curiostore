@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {catchError, switchMap} from 'rxjs/operators';
 import {PageAlertMessage, PageAlertType} from '../../components/page-alert/page-alert.component';
-import {AuthenticationAttempt} from '../../store/actions/authentication.actions';
+import {AuthenticationActionTypes, AuthenticationAttempt} from '../../store/actions/authentication.actions';
 import {ApplicationState} from '../../store/reducers';
 import {AuthenticationError, AuthenticationResult, AuthenticationState} from '../../store/reducers/authentication.reducer';
 import {SecurityService} from '../services/security.service';
@@ -49,5 +49,9 @@ export class SecurityFacadeService {
 
   login(email: string, password: string) {
     this.store.dispatch(new AuthenticationAttempt({username: email, password: password}));
+  }
+
+  clearAlertMessages() {
+
   }
 }

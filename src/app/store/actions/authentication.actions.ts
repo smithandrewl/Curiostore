@@ -4,7 +4,8 @@ import { Action } from '@ngrx/store';
 export enum AuthenticationActionTypes {
   AuthenticationAttempt   = '[Authentication] Authenticate',
   AuthenticationFailed    = '[Authentication] Failed',
-  AuthenticationSucceeded ='[Authentication] Succeeded'
+  AuthenticationSucceeded ='[Authentication] Succeeded',
+  AuthenticationLogout  = '[Authentication] Logout'
 }
 
 export class AuthenticationAttempt implements Action {
@@ -23,7 +24,14 @@ export class AuthenticationFailed implements Action {
 export class AuthenticationSucceeded implements Action {
   readonly type = AuthenticationActionTypes.AuthenticationSucceeded;
 }
+
+export class AuthenticationLogout implements Action {
+  readonly  type = AuthenticationActionTypes.AuthenticationLogout;
+
+}
+
 export type AuthenticationActions =
     AuthenticationAttempt
   | AuthenticationFailed
-  | AuthenticationSucceeded;
+  | AuthenticationSucceeded
+  | AuthenticationLogout;
