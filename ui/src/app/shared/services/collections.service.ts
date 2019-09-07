@@ -15,7 +15,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class CollectionsService {
 
-  readonly BASE_URL = 'http://localhost/api';
+  readonly BASE_URL = 'http://localhost:4200/api';
 
   constructor(
     private httpClient: HttpClient,

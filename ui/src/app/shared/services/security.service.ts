@@ -8,7 +8,7 @@ import { map        } from 'rxjs/operators';
 })
 export class SecurityService {
 
-  readonly BASE_URL = 'http://localhost/api';
+  readonly BASE_URL = 'http://localhost:4200/api';
 
   constructor(private http: HttpClient) { }
 
