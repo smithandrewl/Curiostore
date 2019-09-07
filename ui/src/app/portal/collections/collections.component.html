@@ -1,0 +1,17 @@
+<h1>
+  Collections
+</h1>
+
+
+
+  <div class="btn btn-success mb-4" routerLink="/portal/newCollection">Add</div>
+
+<div class="row text-center text-lg-left bg-success">
+
+  <div class="col-lg-3 col-md-4 col-xs-6" *ngFor="let collection of collections.selectAllCollection$ | async">
+    {{collection.name}}
+    <a class="d-block mb-4 h-100"  [routerLink]="[ '/portal/collections/', collection.name]">
+    <img class="img img-thumbnail" src="https://source.unsplash.com/random/640x360">
+    </a>
+  </div>  
+</div>

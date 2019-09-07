@@ -1,0 +1,21 @@
+
+<h4 class="card-title">{{collection.name}}</h4>
+<p class="card-text">
+  {{collection.description}}
+
+<div class="row">
+  <div class="col-sm">
+<div class="btn btn-light">Add</div><br/><br/>
+  </div>
+</div>
+
+<div class="row text-center text-lg-left bg-success">
+
+  <div class="col-lg-3 col-md-4 col-xs-6" *ngFor="let item of items">
+    <br/>
+    <app-item [item]="item"> </app-item>
+    <br/>
+  </div>
+</div>
+
+

@@ -1,0 +1,30 @@
+{
+    "extends": "../tslint.json",
+
+    "rules": {
+      "whitespace": [
+        false,
+        "check-branch",
+        "check-decl",
+        "check-operator",
+        "check-separator",
+        "check-type"
+      ],
+      "no-trailing-whitespace": false,
+      "space-before-function-paren": false,
+       "no-irregular-whitespace": false,
+
+        "directive-selector": [
+            true,
+            "attribute",
+            "app",
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            "app",
+            "kebab-case"
+        ]
+    }
+}
