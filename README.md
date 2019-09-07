@@ -1,0 +1,1 @@
+# Curiostore collection manager
