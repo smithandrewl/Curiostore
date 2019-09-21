@@ -9,7 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
 from model import engine, Base, Item, Collection, User, Session, get_user_by_name, is_user_logged_in, \
-    get_collection_by_name, get_item_by_name, get_collection_items, Image
+    get_collection_by_name, get_item_by_name, get_collection_items, Image, get_image_by_id
 
 app = bottle.Bottle()
 
@@ -319,7 +319,37 @@ def delete_item(user, collection, item):
         return error_not_found("Item")
 
     session.delete(item)
+@app.get("/<user>/<collection>/<item>/images/<image>")
+def get_item_image(user, collection, item, image):
+  user_name = user
+  user = get_user_by_name(session, user)
 
+  if not user:
+    return error_user_not_found()
+
+  collection_name = collection
+  collection = get_collection_by_name(session, collection)
+
+  if not collection:
+    return error_not_found("Collection")
+
+  if collection.user != user:
+    return error_not_found("Image")
+
+  item = get_item_by_name(session, user_name, collection_name, item)
+
+  if not item:
+    return error_not_found("Item")
+
+
+
+  item_image = get_image_by_id(session,image)
+
+
+  return {
+    "caption": item_image.caption,
+    "description": item_image.description
+  }
 
 
 ############################
@@ -410,8 +440,9 @@ Image1 = Image(caption="Butterfly 1", description="A fine butterfly", item=butte
 session.commit()
 ###################### End Test Data Insertion #############################
 
-app.install(EnableCors())
-app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
+if __name__ == "__main__":
+  app.install(EnableCors())
+  app.install(JwtPlugin(validation, 'secret', algorithm='HS256'))
 
 
-app.run(host="0.0.0.0", port="9988")
+  app.run(host="0.0.0.0", port="9988")

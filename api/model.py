@@ -64,6 +64,11 @@ class Collection(Base):
     user = relationship("User", back_populates="collections")
     items = relationship("Item", back_populates="collection")
 
+def get_image_by_id(session, image_id):
+
+
+  return session.query(Image).filter(Image.id == image_id).first()
+
 def get_item_by_name(session, user, collection, name):
     """
     Searches for an item by name and returns it or None.
