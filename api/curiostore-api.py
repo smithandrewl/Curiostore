@@ -9,7 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
 from model import engine, Base, Item, Collection, User, Session, get_user_by_name, is_user_logged_in, \
-    get_collection_by_name, get_item_by_name, get_collection_items
+    get_collection_by_name, get_item_by_name, get_collection_items, Image
 
 app = bottle.Bottle()
 
@@ -351,6 +351,8 @@ Base.metadata.create_all(engine)
 
 
 ###################### Begin Test Data Insertion #############################
+
+
 TimBob = User(
     email='tbob@place.com',
     display_name='TimBob',
@@ -399,8 +401,11 @@ session.add(fossil_collection)
 fossil = Item(collection = fossil_collection, name="A fossil", description="A fossil for the collection")
 session.add(fossil)
 
-butterfly = Item(collection = butterfly_collection, name="A Butterfly", 
+butterfly = Item(collection = butterfly_collection, name="A Butterfly",
 description="A butterfly")
+
+Image1 = Image(caption="Butterfly 1", description="A fine butterfly", item=butterfly)
+
 
 session.commit()
 ###################### End Test Data Insertion #############################
