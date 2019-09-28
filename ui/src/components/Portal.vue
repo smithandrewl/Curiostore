@@ -106,7 +106,6 @@
     </v-app-bar>
     <v-content style="height: 100%;background-color: rgb(3, 46, 13);box-shadow: inset 0 0 5rem rgb(1, 19, 0);">
       <v-container
-        class="fill-height"
         fluid
       >
         <v-row
@@ -142,8 +141,6 @@
               class="align-center justify-space-between"
               cols="12"
             >
-
-
                 <v-text-field
                   placeholder="Name"
                   prepend-icon=""
