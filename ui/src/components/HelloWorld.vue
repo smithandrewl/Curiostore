@@ -4,7 +4,7 @@
       text-center
       wrap
     >
-
+    Hello World
     </v-layout>
   </v-container>
 </template>

@@ -113,6 +113,7 @@
           align="center"
           justify="center"
         >
+          <router-view></router-view>
         </v-row>
       </v-container>
     </v-content>
