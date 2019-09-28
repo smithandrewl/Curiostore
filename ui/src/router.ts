@@ -8,7 +8,7 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    {path: '/', component: Portal},
-    {path: '/login', component: Login}
+    {path: '/portal', component: Portal},
+    {path: '/', component: Login}
   ],
 });
