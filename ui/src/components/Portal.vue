@@ -134,7 +134,7 @@
     >
       <v-card>
         <v-card-title class="primary text--secondary">
-          Create contact
+          Add a collection
         </v-card-title>
         <v-container>
           <v-row>
@@ -142,51 +142,20 @@
               class="align-center justify-space-between"
               cols="12"
             >
-              <v-row align="center">
-                <v-avatar
-                  size="40px"
-                  class="mr-4"
-                >
-                  <img
-                    src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
-                    alt=""
-                  >
-                </v-avatar>
+
+
                 <v-text-field
                   placeholder="Name"
+                  prepend-icon=""
                 ></v-text-field>
-              </v-row>
             </v-col>
-            <v-col cols="6">
+            <v-col  class="align-center justify-space-between" cols="12">
               <v-text-field
-                prepend-icon="mdi-business"
-                placeholder="Company"
+                prepend-icon="mdi-pen"
+                placeholder="Description"
               ></v-text-field>
             </v-col>
-            <v-col cols="6">
-              <v-text-field
-                placeholder="Job title"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                prepend-icon="mdi-mail"
-                placeholder="Email"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                type="tel"
-                prepend-icon="mdi-phone"
-                placeholder="(000) 000 - 0000"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                prepend-icon="mdi-notes"
-                placeholder="Notes"
-              ></v-text-field>
-            </v-col>
+
           </v-row>
         </v-container>
         <v-card-actions>
