@@ -219,9 +219,7 @@
             dialog: false,
             drawer: null,
             items: [
-                { icon: 'mdi-contacts', text: 'Contacts' },
-                { icon: 'mdi-history', text: 'Frequently contacted' },
-                { icon: 'mdi-content-copy', text: 'Duplicates' },
+                { icon: 'mdi-library-books', text: 'Collections' },
                 {
                     icon: 'mdi-chevron-up',
                     'icon-alt': 'mdi-chevron-down',
@@ -231,24 +229,8 @@
                         { icon: 'mdi-plus', text: 'Create label' },
                     ],
                 },
-                {
-                    icon: 'mdi-chevron-up',
-                    'icon-alt': 'mdi-chevron-down',
-                    text: 'More',
-                    model: false,
-                    children: [
-                        { text: 'Import' },
-                        { text: 'Export' },
-                        { text: 'Print' },
-                        { text: 'Undo changes' },
-                        { text: 'Other contacts' },
-                    ],
-                },
-                { icon: 'mdi-settings', text: 'Settings' },
-                { icon: 'mdi-chat-bubble', text: 'Send feedback' },
-                { icon: 'mdi-help', text: 'Help' },
-                { icon: 'mdi-phonelink', text: 'App downloads' },
-                { icon: 'mdi-keyboard', text: 'Go to the old version' },
+
+
             ],
         }),
     }
