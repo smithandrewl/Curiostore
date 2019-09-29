@@ -7,11 +7,7 @@
 ">Collections</h1>
     </v-col>
   </v-row>
-    <v-row>
-      <v-col cols="2">
-        <v-btn color="primary">Add</v-btn>
-      </v-col>
-    </v-row>
+
     <v-row>
       <div class="primary" style="width:100%; min-height: 200px;padding:1.5em">
         <v-row>
