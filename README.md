@@ -4,7 +4,7 @@ Curiostore consists of two sub-projects, the VueJs web interface, and the bottle
 
 These projects are in the ui and api directories.
 
-The ui is a prototype.
+The ui is a prototype, but the backend works.
 
 ![screenshot](Curiostore.png)
 
