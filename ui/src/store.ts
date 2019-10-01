@@ -21,7 +21,7 @@ export default new Vuex.Store({
     collections: [
       <Collection>{
         name: 'Fossils',
-        coverPhoto: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+        coverPhoto: 'https://www.publicdomainpictures.net/pictures/210000/nahled/mixture-of-fossils.jpg',
       },
     ],
   },

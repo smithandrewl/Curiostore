@@ -17,7 +17,7 @@
               :flat="flat"
               :loading="loading"
               :outlined="outlined"
-              :elevation="elevation"
+              :elevation="6"
               :raised="raised"
               :width="width"
               :height="height"
@@ -28,7 +28,7 @@
                 height="200px"
                 v-bind:src="collection.coverPhoto"
               >
-                <v-card-title class="align-end fill-height">{{collection.name}}</v-card-title>
+                <v-card-title class="align-end fill-height" ><span style="background-color: rgba(0,0,0,0.5);padding: .2em .6em;">{{collection.name}}</span></v-card-title>
               </v-img>
 
 
