@@ -10,7 +10,7 @@
 
     <v-row>
       <div class="primary" style="width:100%; min-height: 200px;padding:1.5em">
-        <v-row>
+        <v-row v-for="collection in getCollections()">
           <v-col cols="4">
             <v-card
               class="mx-auto"
@@ -26,9 +26,9 @@
 
                 class="white--text"
                 height="200px"
-                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                v-bind:src="collection.coverPhoto"
               >
-                <v-card-title class="align-end fill-height">Fossils</v-card-title>
+                <v-card-title class="align-end fill-height">{{collection.name}}</v-card-title>
               </v-img>
 
 
@@ -41,8 +41,22 @@
 </template>
 
 <script>
+
+    import store from "@/store";
+
     export default {
-        name: "Collections"
+        name: "Collections",
+        data: ()=>{
+            return {
+            "title": "fdsa"
+            }
+        },
+        methods: {
+
+          getCollections() {
+              return store.state.collections
+          }
+        }
     }
 </script>
 
