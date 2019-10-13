@@ -98,11 +98,9 @@
         class="hidden-sm-and-down"
       ></v-text-field>
       <div class="flex-grow-1"></div>
-      Ful L. Name
-      <v-btn icon>
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
-
+      <v-list class="primary">
+        <v-list-item class="primary" to="/portal/profile"> Ful L. Name&nbsp;&nbsp;<v-icon>mdi-account</v-icon></v-list-item>
+      </v-list>
     </v-app-bar>
     <v-content style="height: 100%;background-color: rgb(3, 46, 13);box-shadow: inset 0 0 5rem rgb(1, 19, 0);">
       <v-container
