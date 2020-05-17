@@ -52,9 +52,8 @@
             }
         },
         methods: {
-
           getCollections() {
-              return store.state.collections
+              return store.getters['collection/getCollections'];
           }
         }
     }
