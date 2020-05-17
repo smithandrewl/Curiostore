@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+
 import {auth } from '@/store/modules/auth';
 import { collections } from '@/store/modules/collections';
 import { items } from '@/store/modules/items';
+import { errors } from '@/store/modules/errors';
 
 Vue.use(Vuex);
 
@@ -45,6 +47,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     collection: collections,
-    items
+    items,
+    errors
   }
 });
