@@ -53,7 +53,7 @@
         },
         methods: {
           getCollections() {
-              return store.getters['collection/getCollections'];
+              return store.getters['collections/getCollections'];
           }
         }
     }

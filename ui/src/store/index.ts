@@ -32,7 +32,7 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
-    collection: collections,
+    collections,
     items,
     errors
   }
