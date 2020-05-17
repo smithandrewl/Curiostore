@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {auth} from '@/store/modules/auth';
-
+import { collections} from '@/store/modules/collections';
 Vue.use(Vuex);
 
 interface ProfileSettings {
@@ -41,6 +41,7 @@ export default new Vuex.Store({
 
   },
   modules: {
-    auth
+    auth,
+    collection: collections
   }
 });
